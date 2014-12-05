@@ -4,6 +4,8 @@ SmallDB
 a small database for course
 
 Support Command as following:
+
+
 assigned:
     define relation <relation_name>
     set attribute integer <attribute_name>
