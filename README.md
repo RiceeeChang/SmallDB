@@ -7,6 +7,7 @@ Support Command as following:
 
 
 assigned:
+
     define relation <relation_name>
     set attribute integer <attribute_name>
     set attribute integer <attribute_name> range <minimum> <maximum>
