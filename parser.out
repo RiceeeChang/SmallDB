@@ -1,0 +1,538 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> command
+Rule 1     command -> define_cmd
+Rule 2     command -> set_cmd
+Rule 3     command -> create_cmd
+Rule 4     command -> insert_cmd
+Rule 5     command -> delete_cmd
+Rule 6     command -> update_cmd
+Rule 7     command -> select_cmd
+Rule 8     define_cmd -> DEFINE RELATION WORD
+Rule 9     set_cmd -> SET ATTRIBUTE CHARACTER NUMBER WORD
+Rule 10    set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER
+Rule 11    set_cmd -> SET ATTRIBUTE INTEGER WORD
+Rule 12    set_cmd -> SET PRIMARY KEY WORD
+Rule 13    create_cmd -> CREATE TABLE WORD WORD
+Rule 14    insert_cmd -> INSERT WORD attribute_expr
+Rule 15    attribute_expr -> WORD attribute_expr
+Rule 16    attribute_expr -> NUMBER attribute_expr
+Rule 17    attribute_expr -> WORD
+Rule 18    attribute_expr -> NUMBER
+Rule 19    delete_cmd -> DELETE WORD NUMBER
+Rule 20    update_cmd -> UPDATE WORD NUMBER attribute_expr
+Rule 21    select_cmd -> SELECT WORD FROM WORD WHERE expr
+Rule 22    expr -> WORD EQUAL NUMBER
+Rule 23    expr -> WORD GREATER NUMBER
+Rule 24    expr -> WORD LESS NUMBER
+
+Terminals, with rules where they appear
+
+ATTRIBUTE            : 9 10 11
+CHARACTER            : 9
+CREATE               : 13
+DEFINE               : 8
+DELETE               : 19
+EQUAL                : 22
+FROM                 : 21
+GREATER              : 23
+INSERT               : 14
+INTEGER              : 10 11
+KEY                  : 12
+LESS                 : 24
+NUMBER               : 9 10 10 16 18 19 20 22 23 24
+PRIMARY              : 12
+RANGE                : 10
+RELATION             : 8
+SELECT               : 21
+SET                  : 9 10 11 12
+TABLE                : 13
+UPDATE               : 20
+WHERE                : 21
+WORD                 : 8 9 10 11 12 13 13 14 15 17 19 20 21 21 22 23 24
+error                : 
+
+Nonterminals, with rules where they appear
+
+attribute_expr       : 14 15 16 20
+command              : 0
+create_cmd           : 3
+define_cmd           : 1
+delete_cmd           : 5
+expr                 : 21
+insert_cmd           : 4
+select_cmd           : 7
+set_cmd              : 2
+update_cmd           : 6
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . command
+    (1) command -> . define_cmd
+    (2) command -> . set_cmd
+    (3) command -> . create_cmd
+    (4) command -> . insert_cmd
+    (5) command -> . delete_cmd
+    (6) command -> . update_cmd
+    (7) command -> . select_cmd
+    (8) define_cmd -> . DEFINE RELATION WORD
+    (9) set_cmd -> . SET ATTRIBUTE CHARACTER NUMBER WORD
+    (10) set_cmd -> . SET ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER
+    (11) set_cmd -> . SET ATTRIBUTE INTEGER WORD
+    (12) set_cmd -> . SET PRIMARY KEY WORD
+    (13) create_cmd -> . CREATE TABLE WORD WORD
+    (14) insert_cmd -> . INSERT WORD attribute_expr
+    (19) delete_cmd -> . DELETE WORD NUMBER
+    (20) update_cmd -> . UPDATE WORD NUMBER attribute_expr
+    (21) select_cmd -> . SELECT WORD FROM WORD WHERE expr
+
+    DEFINE          shift and go to state 13
+    SET             shift and go to state 2
+    CREATE          shift and go to state 6
+    INSERT          shift and go to state 11
+    DELETE          shift and go to state 12
+    UPDATE          shift and go to state 8
+    SELECT          shift and go to state 9
+
+    update_cmd                     shift and go to state 10
+    insert_cmd                     shift and go to state 4
+    select_cmd                     shift and go to state 5
+    create_cmd                     shift and go to state 14
+    delete_cmd                     shift and go to state 15
+    set_cmd                        shift and go to state 1
+    define_cmd                     shift and go to state 7
+    command                        shift and go to state 3
+
+state 1
+
+    (2) command -> set_cmd .
+
+    $end            reduce using rule 2 (command -> set_cmd .)
+
+
+state 2
+
+    (9) set_cmd -> SET . ATTRIBUTE CHARACTER NUMBER WORD
+    (10) set_cmd -> SET . ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER
+    (11) set_cmd -> SET . ATTRIBUTE INTEGER WORD
+    (12) set_cmd -> SET . PRIMARY KEY WORD
+
+    ATTRIBUTE       shift and go to state 17
+    PRIMARY         shift and go to state 16
+
+
+state 3
+
+    (0) S' -> command .
+
+
+
+state 4
+
+    (4) command -> insert_cmd .
+
+    $end            reduce using rule 4 (command -> insert_cmd .)
+
+
+state 5
+
+    (7) command -> select_cmd .
+
+    $end            reduce using rule 7 (command -> select_cmd .)
+
+
+state 6
+
+    (13) create_cmd -> CREATE . TABLE WORD WORD
+
+    TABLE           shift and go to state 18
+
+
+state 7
+
+    (1) command -> define_cmd .
+
+    $end            reduce using rule 1 (command -> define_cmd .)
+
+
+state 8
+
+    (20) update_cmd -> UPDATE . WORD NUMBER attribute_expr
+
+    WORD            shift and go to state 19
+
+
+state 9
+
+    (21) select_cmd -> SELECT . WORD FROM WORD WHERE expr
+
+    WORD            shift and go to state 20
+
+
+state 10
+
+    (6) command -> update_cmd .
+
+    $end            reduce using rule 6 (command -> update_cmd .)
+
+
+state 11
+
+    (14) insert_cmd -> INSERT . WORD attribute_expr
+
+    WORD            shift and go to state 21
+
+
+state 12
+
+    (19) delete_cmd -> DELETE . WORD NUMBER
+
+    WORD            shift and go to state 22
+
+
+state 13
+
+    (8) define_cmd -> DEFINE . RELATION WORD
+
+    RELATION        shift and go to state 23
+
+
+state 14
+
+    (3) command -> create_cmd .
+
+    $end            reduce using rule 3 (command -> create_cmd .)
+
+
+state 15
+
+    (5) command -> delete_cmd .
+
+    $end            reduce using rule 5 (command -> delete_cmd .)
+
+
+state 16
+
+    (12) set_cmd -> SET PRIMARY . KEY WORD
+
+    KEY             shift and go to state 24
+
+
+state 17
+
+    (9) set_cmd -> SET ATTRIBUTE . CHARACTER NUMBER WORD
+    (10) set_cmd -> SET ATTRIBUTE . INTEGER WORD RANGE NUMBER NUMBER
+    (11) set_cmd -> SET ATTRIBUTE . INTEGER WORD
+
+    CHARACTER       shift and go to state 25
+    INTEGER         shift and go to state 26
+
+
+state 18
+
+    (13) create_cmd -> CREATE TABLE . WORD WORD
+
+    WORD            shift and go to state 27
+
+
+state 19
+
+    (20) update_cmd -> UPDATE WORD . NUMBER attribute_expr
+
+    NUMBER          shift and go to state 28
+
+
+state 20
+
+    (21) select_cmd -> SELECT WORD . FROM WORD WHERE expr
+
+    FROM            shift and go to state 29
+
+
+state 21
+
+    (14) insert_cmd -> INSERT WORD . attribute_expr
+    (15) attribute_expr -> . WORD attribute_expr
+    (16) attribute_expr -> . NUMBER attribute_expr
+    (17) attribute_expr -> . WORD
+    (18) attribute_expr -> . NUMBER
+
+    WORD            shift and go to state 30
+    NUMBER          shift and go to state 31
+
+    attribute_expr                 shift and go to state 32
+
+state 22
+
+    (19) delete_cmd -> DELETE WORD . NUMBER
+
+    NUMBER          shift and go to state 33
+
+
+state 23
+
+    (8) define_cmd -> DEFINE RELATION . WORD
+
+    WORD            shift and go to state 34
+
+
+state 24
+
+    (12) set_cmd -> SET PRIMARY KEY . WORD
+
+    WORD            shift and go to state 35
+
+
+state 25
+
+    (9) set_cmd -> SET ATTRIBUTE CHARACTER . NUMBER WORD
+
+    NUMBER          shift and go to state 36
+
+
+state 26
+
+    (10) set_cmd -> SET ATTRIBUTE INTEGER . WORD RANGE NUMBER NUMBER
+    (11) set_cmd -> SET ATTRIBUTE INTEGER . WORD
+
+    WORD            shift and go to state 37
+
+
+state 27
+
+    (13) create_cmd -> CREATE TABLE WORD . WORD
+
+    WORD            shift and go to state 38
+
+
+state 28
+
+    (20) update_cmd -> UPDATE WORD NUMBER . attribute_expr
+    (15) attribute_expr -> . WORD attribute_expr
+    (16) attribute_expr -> . NUMBER attribute_expr
+    (17) attribute_expr -> . WORD
+    (18) attribute_expr -> . NUMBER
+
+    WORD            shift and go to state 30
+    NUMBER          shift and go to state 31
+
+    attribute_expr                 shift and go to state 39
+
+state 29
+
+    (21) select_cmd -> SELECT WORD FROM . WORD WHERE expr
+
+    WORD            shift and go to state 40
+
+
+state 30
+
+    (15) attribute_expr -> WORD . attribute_expr
+    (17) attribute_expr -> WORD .
+    (15) attribute_expr -> . WORD attribute_expr
+    (16) attribute_expr -> . NUMBER attribute_expr
+    (17) attribute_expr -> . WORD
+    (18) attribute_expr -> . NUMBER
+
+    $end            reduce using rule 17 (attribute_expr -> WORD .)
+    WORD            shift and go to state 30
+    NUMBER          shift and go to state 31
+
+    attribute_expr                 shift and go to state 41
+
+state 31
+
+    (16) attribute_expr -> NUMBER . attribute_expr
+    (18) attribute_expr -> NUMBER .
+    (15) attribute_expr -> . WORD attribute_expr
+    (16) attribute_expr -> . NUMBER attribute_expr
+    (17) attribute_expr -> . WORD
+    (18) attribute_expr -> . NUMBER
+
+    $end            reduce using rule 18 (attribute_expr -> NUMBER .)
+    WORD            shift and go to state 30
+    NUMBER          shift and go to state 31
+
+    attribute_expr                 shift and go to state 42
+
+state 32
+
+    (14) insert_cmd -> INSERT WORD attribute_expr .
+
+    $end            reduce using rule 14 (insert_cmd -> INSERT WORD attribute_expr .)
+
+
+state 33
+
+    (19) delete_cmd -> DELETE WORD NUMBER .
+
+    $end            reduce using rule 19 (delete_cmd -> DELETE WORD NUMBER .)
+
+
+state 34
+
+    (8) define_cmd -> DEFINE RELATION WORD .
+
+    $end            reduce using rule 8 (define_cmd -> DEFINE RELATION WORD .)
+
+
+state 35
+
+    (12) set_cmd -> SET PRIMARY KEY WORD .
+
+    $end            reduce using rule 12 (set_cmd -> SET PRIMARY KEY WORD .)
+
+
+state 36
+
+    (9) set_cmd -> SET ATTRIBUTE CHARACTER NUMBER . WORD
+
+    WORD            shift and go to state 43
+
+
+state 37
+
+    (10) set_cmd -> SET ATTRIBUTE INTEGER WORD . RANGE NUMBER NUMBER
+    (11) set_cmd -> SET ATTRIBUTE INTEGER WORD .
+
+    RANGE           shift and go to state 44
+    $end            reduce using rule 11 (set_cmd -> SET ATTRIBUTE INTEGER WORD .)
+
+
+state 38
+
+    (13) create_cmd -> CREATE TABLE WORD WORD .
+
+    $end            reduce using rule 13 (create_cmd -> CREATE TABLE WORD WORD .)
+
+
+state 39
+
+    (20) update_cmd -> UPDATE WORD NUMBER attribute_expr .
+
+    $end            reduce using rule 20 (update_cmd -> UPDATE WORD NUMBER attribute_expr .)
+
+
+state 40
+
+    (21) select_cmd -> SELECT WORD FROM WORD . WHERE expr
+
+    WHERE           shift and go to state 45
+
+
+state 41
+
+    (15) attribute_expr -> WORD attribute_expr .
+
+    $end            reduce using rule 15 (attribute_expr -> WORD attribute_expr .)
+
+
+state 42
+
+    (16) attribute_expr -> NUMBER attribute_expr .
+
+    $end            reduce using rule 16 (attribute_expr -> NUMBER attribute_expr .)
+
+
+state 43
+
+    (9) set_cmd -> SET ATTRIBUTE CHARACTER NUMBER WORD .
+
+    $end            reduce using rule 9 (set_cmd -> SET ATTRIBUTE CHARACTER NUMBER WORD .)
+
+
+state 44
+
+    (10) set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE . NUMBER NUMBER
+
+    NUMBER          shift and go to state 46
+
+
+state 45
+
+    (21) select_cmd -> SELECT WORD FROM WORD WHERE . expr
+    (22) expr -> . WORD EQUAL NUMBER
+    (23) expr -> . WORD GREATER NUMBER
+    (24) expr -> . WORD LESS NUMBER
+
+    WORD            shift and go to state 48
+
+    expr                           shift and go to state 47
+
+state 46
+
+    (10) set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER . NUMBER
+
+    NUMBER          shift and go to state 49
+
+
+state 47
+
+    (21) select_cmd -> SELECT WORD FROM WORD WHERE expr .
+
+    $end            reduce using rule 21 (select_cmd -> SELECT WORD FROM WORD WHERE expr .)
+
+
+state 48
+
+    (22) expr -> WORD . EQUAL NUMBER
+    (23) expr -> WORD . GREATER NUMBER
+    (24) expr -> WORD . LESS NUMBER
+
+    EQUAL           shift and go to state 51
+    GREATER         shift and go to state 52
+    LESS            shift and go to state 50
+
+
+state 49
+
+    (10) set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER .
+
+    $end            reduce using rule 10 (set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER .)
+
+
+state 50
+
+    (24) expr -> WORD LESS . NUMBER
+
+    NUMBER          shift and go to state 53
+
+
+state 51
+
+    (22) expr -> WORD EQUAL . NUMBER
+
+    NUMBER          shift and go to state 54
+
+
+state 52
+
+    (23) expr -> WORD GREATER . NUMBER
+
+    NUMBER          shift and go to state 55
+
+
+state 53
+
+    (24) expr -> WORD LESS NUMBER .
+
+    $end            reduce using rule 24 (expr -> WORD LESS NUMBER .)
+
+
+state 54
+
+    (22) expr -> WORD EQUAL NUMBER .
+
+    $end            reduce using rule 22 (expr -> WORD EQUAL NUMBER .)
+
+
+state 55
+
+    (23) expr -> WORD GREATER NUMBER .
+
+    $end            reduce using rule 23 (expr -> WORD GREATER NUMBER .)
+
