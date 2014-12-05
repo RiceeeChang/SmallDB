@@ -3,8 +3,15 @@ SmallDB
 
 a small database for course
 
-Support Command as following:
+System Fuction
 
+    1. user log in/out
+        log in <user_id> <password>
+        log out
+        sysadmin authentication
+    2. build relation table 
+
+Support Command as following:
 
 assigned:
 
