@@ -24,7 +24,8 @@ reserved = {
     'where'     : 'WHERE',
     'integer'   : 'INTEGER',
     'character' : 'CHARACTER',
-    'range'     : 'RANGE'
+    'range'     : 'RANGE',
+    'exit'      : 'EXIT'
 }
 
 tokens = list(reserved.values()) + [

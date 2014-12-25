@@ -4,8 +4,12 @@
 #
 #---------------------------------------
 import ply.yacc as yacc
+import sys
+import json
+import os
 
 from SqlProcess import Relation, Table
+import SqlProcess as process
 
 # Get the token map from the lexer. This is required
 from SqlLex import tokens
@@ -22,7 +26,6 @@ state = 'cmd'
 # Relation and Table dictionary to collect used relation and table
 global temp_rel
 relation = {}
-table    = {}
 
 def p_command(p):
     '''command : define_cmd
@@ -31,7 +34,13 @@ def p_command(p):
                | insert_cmd
                | delete_cmd
                | update_cmd
-               | select_cmd'''
+               | select_cmd
+               | exit_cmd'''
+
+def p_exit_cmd(p):
+    # exit database system
+    '''exit_cmd : EXIT'''
+    sys.exit()
 
 def p_define_cmd(p):
     # define relation <relation_name>
@@ -41,7 +50,6 @@ def p_define_cmd(p):
     if state is 'cmd':
         temp_rel = Relation(p[3])
         state = 'rel'
-        print(temp_rel.name)
 
 def p_set_cmd(p):
     # set attribute character <char_number> <attribute_name>
@@ -54,31 +62,37 @@ def p_set_cmd(p):
            | SET PRIMARY KEY  WORD'''
     global state
     global temp_rel
-    print(len(p))
-    if state is 'rel':
-        if p[3] is 'character':
+    if state == 'rel':
+        if p[3] == 'character':
             temp_rel.attribute.append((p[4], p[3], p[5]))
-        elif p[3] is 'integer':
+        elif p[3] == 'integer':
             if len(p) is 5:
                 temp_rel.attribute.append((p[4], p[3]))
             elif len(p) is 8:
                 temp_rel.attribute.appedn((p[4], p[3], p[5], p[6]))
-        elif p[3] is 'key':
-            temp_rel.setPrimary_key(p[4])
-            relation.update({temp_rel.name : temp_rel})
-            state = 'cmd'
-
+        elif p[3] == 'key':
+            if temp_rel.setPrimary_key(p[4]):
+                relation.update({temp_rel.name : temp_rel})
+                state = 'cmd'
 
 def p_create_cmd(p):
     # create table <relation_name> <table_name>
     'create_cmd : CREATE TABLE WORD WORD'
-    table.update({p[4] : Table(relation[p[3]], p[4])})
-
+    relation_name = p[3]
+    table_name = p[4]
+    table = Table(p[4], relation[p[3]].primary_key, relation[p[3]].attribute, {})
+    if relation_name in relation:
+        process.createTable(table_name, table)
+    else:
+        print('Error: relation "' + relation_name + '" is not exist.')
     
 def p_insert_cmd(p):
     # insert <table_name> (<attribute_value>)+
     'insert_cmd : INSERT WORD attribute_expr'
-    table[p[2]].addElement(p[3])
+    table_name = p[2]
+    table = process.readTable(table_name)
+    table.addElement(p[3])
+    process.writeTable(table_name, table)
 
 def p_attribute_expr(p):
     # <attribute_value> <attribute_expr>
@@ -94,28 +108,33 @@ def p_attribute_expr(p):
 def p_delete_cmd(p):
     # delete <table_name> <primary_key_value>
     'delete_cmd : DELETE WORD NUMBER'
-    table[p[2]].delElement(p[3])
-
+    table_name = p[2]
+    table = process.readTable(table_name)
+    table.delElement(p[3])
+    process.writeTable(table_name, table)
 
 def p_update_cmd(p):
     # update <table_name> <primary_key_value> (<attribute_value>)+
     'update_cmd : UPDATE WORD NUMBER attribute_expr'
-    table[p[2]].update(p[3], p[4])
-
+    table_name = p[2]
+    table = process.readTable(table_name)
+    table.update(p[3], p[4])
+    process.writeTable(table_name, table)
 
 def p_select_cmd(p):
     # select <attribute_name> from <table_name> where <expr>
     'select_cmd : SELECT WORD FROM WORD WHERE expr'
-    temp_table = table[p[4]]
-    if   p[6][1] is '=':
+    table_name = p[4]
+    temp_table = process.readTable(table_name)
+    if   p[6][1] == '=':
         for element in temp_table.element:
             if element[p[6][0]] is p[6][2]:
                 print(element[p[2]])
-    elif p[6][1] is '>':
+    elif p[6][1] == '>':
         for element in temp_table.element:
             if element[p[6][0]] > p[6][2]:
                 print(element[p[2]])
-    elif p[6][1] is '<':
+    elif p[6][1] == '<':
         for element in temp_table.element:
             if element[p[6][0]] < p[6][2]:
                 print(element[p[2]])
@@ -127,14 +146,12 @@ def p_expr(p):
           | WORD LESS NUMBER'''
     p[0] = (p[1], p[2], p[3])
 
-
 # Error rule for syntax errors
 def p_error(p):
     print("Syntax error in " + p.value)
 
 # Build the parser
 parser = yacc.yacc()
-
 
 while True:
     try:
@@ -144,4 +161,4 @@ while True:
 
     if not s: continue
     result = parser.parse(s)
-    print(result)
+    # print(result)

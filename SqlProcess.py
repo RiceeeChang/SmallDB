@@ -4,59 +4,68 @@
 #
 #-----------------------------------------
 import itertools
+import os
+import json
 
 
 class Relation(object):
     def __init__(self, name):
         self.name = name
-        primary_key = ''
-        attribute = []
+        self.primary_key = ''
+        self.attribute = []
 
-    def setPrimary_key(key_name):
-        priary_key = key_name
-        for attr in attribute:
+    def setPrimary_key(self, key_name):
+        for attr in self.attribute:
             if key_name in attr:
                 primary = attr
-                attribute.remove(attr)
-                attribute.insert(0, primary)
+                self.attribute.remove(attr)
+                self.attribute.insert(0, primary)
                 break;
         if primary is None:
             print('Error: there is no attribute named ' + key_name + ' in relation')
+            return False
+        else:
+            self.primary_key = key_name
+            return True
 
-    def addAttribute(attribute_name, attribute_type):
-        for attr in attribute:
+    def addAttribute(self, attribute_name, attribute_type):
+        for attr in self.attribute:
             if attribute_name in attr:
                 print('Error: there has been a attribute named ' + attribute_name)
                 return 0
-        attribute.update({attribute_name : attribute_type})
+        attribute.append(attribute_type)
 
     def delAttribute(attribute_name):
         for attr in attribute:
             if attribute_name in attr:
-                attribute.remove(attribute_name)
-                break
+                attribute.remove(attr)
+                return 0
+        print('Error: attribute "' + attribute_name + '" is not existing.')
 
-# attribute format
+# attr format is in a tuple
 # (attribute_name, type = character, length)
 # (attribute_name, type = integer)
 # (attribute_name, type = integer, min, max)
 
 
-class Table:
-    def _init_(self, relation, name):
+class Table(object):
+    def __init__(self, name, primary_key, attribute, element):
         self.name = name
-        self.attribute = relation.attribute
-        primary_key = relation.primary_key
-        element = {}
+        self.primary_key = primary_key
+        self.attribute = attribute
 
+        self.table = {'name' : name, 
+                'primary_key' : primary_key, 
+                'attribute' : attribute, 
+                'elements' : element}
 
     # element - a tuple of inserted values (value1, value2, ...)
-    def addElement(element):
+    def addElement(self, element):
         ele = {}
 
-        # check is the value valid
+        # check the value type is valid.
         # add the value into ele
-        for attr, value in zip(attribute, element):
+        for attr, value in zip(self, attribute, element):
             if attr[1] is 'character':
                 if type(value) is str and len(value) < attr[2]:
                     ele.update({attr[0] : value})
@@ -70,22 +79,60 @@ class Table:
 
         # check primary key is unique in element[]
         for row in element:
-            if row[primary_key] is ele[primary_key]:
+            if row[primary_key] is ele[self.primary_key]:
                 print('Error: there has been a row with same primary key.'+ primary_key + ": " + ele[primary_key])
                 return 0
+        
         # add the ele into table
-        element.update({ele[primary_key] : ele})
+        self.table['elements'].update({ele[primary_key] : ele})
 
 
     # delete <table> <primary_key>
-    def delElement(key_value):
-        del element[key_value]
+    def delElement(self, key_value):
+        try:
+            del self.table['elements'][key_value]
+        except KeyError:
+            print('Key value "' + kay_value + '" is not existing.')
 
     # update <table> <primary_key> (<attribute_value>)+
-    def updateElement(key_value, element):
-        for attr, value in zip(attribute[1:], element[1:]):
-            element[key_value][attr[0]] = value
+    def updateElement(self, key_value, element):
+        if key_value in self.table['elements']:
+            for attr, value in zip(self.attribute[1:], element[1:]):
+                table['elements'][key_value][attr[0]] = value
+        else:
+            print('Key value "' + kay_value + '" is not existing.')
 
     # select Attribute and constrain ...
-    #def selectElement(query_attribute, constrain):
-        
+    # execute in the SqlParser.py
+    
+
+def getFilePath(table_name):
+    return 'Data/' + table_name + '.json'
+
+
+def createTable(table_name, table):
+    path = getFilePath(table_name)
+    if os.path.exists(path):
+        print('Table "' + table_name + '" has existed.')
+    else:
+        with open(path, 'w+') as data:
+            json.dump(table.table, data)
+            data.close()
+            
+def readTable(table_name):
+    path = getFilePath(table_name)
+    if os.path.exists(path):
+        with open(path, 'r') as datafile:
+            data = json.load(datafile)
+            table = Table(data['name'], data['primary_key'], data['attribute'], data['elements'])
+            return table
+    else:
+        print('Table "' + table_name + '" does not exist.')
+
+def writeTable(table_name, table):
+    path = getFilePath(table_name)
+    if os.path.exists(path):
+        with open(path, 'w') as datafile:
+            json.dump(table, data)
+    else:
+        print('Table "' + table_name + '" does not exist.')
