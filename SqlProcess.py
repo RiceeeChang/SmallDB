@@ -62,49 +62,53 @@ class Table(object):
     # element - a tuple of inserted values (value1, value2, ...)
     def addElement(self, element):
         ele = {}
+        primary_key = self.primary_key
+        attribute = self.attribute
 
         # check the value type is valid.
         # add the value into ele
-        for attr, value in zip(self, attribute, element):
-            if attr[1] is 'character':
-                if type(value) is str and len(value) < attr[2]:
-                    ele.update({attr[0] : value})
-            elif attr[1] is 'integer':
+        for attr, value in zip(attribute, element):
+            if attr[1] == 'character':
+                if type(value) is str:
+                    if len(value) < attr[2]:
+                        ele.update({attr[0] : value})
+            elif attr[1] == 'integer':
                 if type(value) is int:
                     if len(attr) is 2:
                         ele.update({attr[0] : value})
-                    elif len(attr) is 4 and value >= attr[2] and value <= attr[3]:
-                        ele.update({attr[0] : value})
-            print(attr, value)
+                    elif len(attr) is 4:
+                        if value >= attr[2] and value <= attr[3]:
+                            ele.update({attr[0] : value})
 
         # check primary key is unique in element[]
-        for row in element:
-            if row[primary_key] is ele[self.primary_key]:
+        # ------------------
+        # row - is the key in the table['elements']
+        for key in self.table['elements']:
+            if key == str(ele[primary_key]):
                 print('Error: there has been a row with same primary key.'+ primary_key + ": " + ele[primary_key])
                 return 0
         
+        # cuz in JSON key value cannot be int
+        # so we change all primary key value to string
         # add the ele into table
-        self.table['elements'].update({ele[primary_key] : ele})
+        self.table['elements'].update( { str(ele[primary_key]) : ele})
 
 
     # delete <table> <primary_key>
     def delElement(self, key_value):
         try:
-            del self.table['elements'][key_value]
+            del self.table['elements'][str(key_value)]
         except KeyError:
             print('Key value "' + kay_value + '" is not existing.')
 
     # update <table> <primary_key> (<attribute_value>)+
     def updateElement(self, key_value, element):
-        if key_value in self.table['elements']:
-            for attr, value in zip(self.attribute[1:], element[1:]):
-                table['elements'][key_value][attr[0]] = value
+        if str(key_value) in self.table['elements']:
+            self.delElement(key_value)
         else:
             print('Key value "' + kay_value + '" is not existing.')
-
-    # select Attribute and constrain ...
-    # execute in the SqlParser.py
-    
+            return 0
+        self.addElement(element)
 
 def getFilePath(table_name):
     return 'Data/' + table_name + '.json'
@@ -115,9 +119,9 @@ def createTable(table_name, table):
     if os.path.exists(path):
         print('Table "' + table_name + '" has existed.')
     else:
-        with open(path, 'w+') as data:
-            json.dump(table.table, data)
-            data.close()
+        with open(path, 'w+') as datafile:
+            json.dump(table.table, datafile)
+            datafile.close()
             
 def readTable(table_name):
     path = getFilePath(table_name)
@@ -127,12 +131,20 @@ def readTable(table_name):
             table = Table(data['name'], data['primary_key'], data['attribute'], data['elements'])
             return table
     else:
-        print('Table "' + table_name + '" does not exist.')
+        return None
+
+# -------------------------------
+# writeTable - save table to a json file
+# table_name - name of table and let it be file name
+# table - table class object table.table is what to save
+# -------------------------------
 
 def writeTable(table_name, table):
     path = getFilePath(table_name)
     if os.path.exists(path):
         with open(path, 'w') as datafile:
-            json.dump(table, data)
+            json.dump(table.table, datafile)
+        return True
     else:
         print('Table "' + table_name + '" does not exist.')
+        return False

@@ -25,7 +25,10 @@ state = 'cmd'
 
 # Relation and Table dictionary to collect used relation and table
 global temp_rel
-relation = {}
+relation_list = {}
+with open('Data/relation_list.json', 'r+') as datafile:
+    relation_list = json.load(datafile)
+
 
 def p_command(p):
     '''command : define_cmd
@@ -64,7 +67,7 @@ def p_set_cmd(p):
     global temp_rel
     if state == 'rel':
         if p[3] == 'character':
-            temp_rel.attribute.append((p[4], p[3], p[5]))
+            temp_rel.attribute.append((p[5], p[3], p[4]))
         elif p[3] == 'integer':
             if len(p) is 5:
                 temp_rel.attribute.append((p[4], p[3]))
@@ -72,27 +75,41 @@ def p_set_cmd(p):
                 temp_rel.attribute.appedn((p[4], p[3], p[5], p[6]))
         elif p[3] == 'key':
             if temp_rel.setPrimary_key(p[4]):
-                relation.update({temp_rel.name : temp_rel})
+                relation_list.update({temp_rel.name : {'name': temp_rel.name, 'primary_key': temp_rel.primary_key, 'attribute': temp_rel.attribute}})
                 state = 'cmd'
+            print(relation_list)
+            with open('Data/relation_list.json', 'w') as datafile:
+                json.dump(relation_list, datafile)
+
+
 
 def p_create_cmd(p):
     # create table <relation_name> <table_name>
     'create_cmd : CREATE TABLE WORD WORD'
     relation_name = p[3]
     table_name = p[4]
-    table = Table(p[4], relation[p[3]].primary_key, relation[p[3]].attribute, {})
-    if relation_name in relation:
+    if relation_name in relation_list:
+        table = Table(p[4], relation_list[p[3]]['primary_key'], relation_list[p[3]]['attribute'], {})
         process.createTable(table_name, table)
     else:
         print('Error: relation "' + relation_name + '" is not exist.')
+
+    table_list = []
+    with open('Data/table_list.json', 'r+') as datafile:
+        table_list = json.load(datafile)
+    table_list.append(table_name)
+    with open('Data/table_list.json', 'w+') as datafile:
+        json.dump(table_list, datafile)
+
     
 def p_insert_cmd(p):
     # insert <table_name> (<attribute_value>)+
     'insert_cmd : INSERT WORD attribute_expr'
     table_name = p[2]
     table = process.readTable(table_name)
-    table.addElement(p[3])
-    process.writeTable(table_name, table)
+    if table is not None:
+        table.addElement(p[3])
+        process.writeTable(table_name, table)
 
 def p_attribute_expr(p):
     # <attribute_value> <attribute_expr>
@@ -117,33 +134,52 @@ def p_update_cmd(p):
     # update <table_name> <primary_key_value> (<attribute_value>)+
     'update_cmd : UPDATE WORD NUMBER attribute_expr'
     table_name = p[2]
+    element = (p[3],) + p[4]
     table = process.readTable(table_name)
-    table.update(p[3], p[4])
+    table.updateElement(p[3], element)
     process.writeTable(table_name, table)
 
 def p_select_cmd(p):
     # select <attribute_name> from <table_name> where <expr>
-    'select_cmd : SELECT WORD FROM WORD WHERE expr'
+    #      [0]       [1]   [2]  [3]  [4]  [5]   [6]
+    '''select_cmd : SELECT WORD FROM WORD WHERE expr
+                  | SELECT WORD FROM WORD'''
     table_name = p[4]
-    temp_table = process.readTable(table_name)
-    if   p[6][1] == '=':
-        for element in temp_table.element:
-            if element[p[6][0]] is p[6][2]:
-                print(element[p[2]])
-    elif p[6][1] == '>':
-        for element in temp_table.element:
-            if element[p[6][0]] > p[6][2]:
-                print(element[p[2]])
-    elif p[6][1] == '<':
-        for element in temp_table.element:
-            if element[p[6][0]] < p[6][2]:
-                print(element[p[2]])
+    table = process.readTable(table_name).table
+    for attr in table['attribute']:
+        if p[2] in attr:
+            attribute = attr
+    temp_table = {'name' : table_name, 'attribute':[attribute], 'primary_key': table['primary_key'], 'elements': {}}
+
+    attribute = p[2]
+
+    if len(p) is 5:
+        for key in table['elements']:
+            temp_table['elements'].update({ key : table['elements'][key][attribute]})
+            print(temp_table['elements'][key])
+    elif len(p) is 7:
+        a = p[6][0]
+        b = p[6][1]
+        c = p[6][2]
+        for key in table['elements']:
+            if   b == '=':
+                if table['elements'][key][a] == c:
+                    temp_table['elements'].update({ key : table['elements'][key][attribute]})
+                    print(temp_table['elements'][key])
+            elif b == '>':
+                if table['elements'][key][a] > c:
+                    temp_table['elements'].update({ key : table['elements'][key][attribute]})
+                    print(temp_table['elements'][key])
+            elif b == '<':
+                if table['elements'][key][a] < c:
+                    temp_table['elements'].update({ key : table['elements'][key][attribute]})
+                    print(temp_table['elements'][key])
 
 def p_expr(p):
     # <attribute_name> [=|>|<] <value>
     '''expr : WORD EQUAL NUMBER
-          | WORD GREATER NUMBER
-          | WORD LESS NUMBER'''
+            | WORD GREATER NUMBER
+            | WORD LESS NUMBER'''
     p[0] = (p[1], p[2], p[3])
 
 # Error rule for syntax errors
@@ -162,3 +198,4 @@ while True:
     if not s: continue
     result = parser.parse(s)
     # print(result)
+

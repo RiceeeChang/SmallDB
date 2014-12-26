@@ -1,0 +1,1 @@
+{"attribute": [["SID", "integer"], ["NAME", "character", 20]], "name": "STUDENT_DB", "elements": {}, "primary_key": "SID"}
