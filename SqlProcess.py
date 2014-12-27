@@ -72,6 +72,8 @@ class Table(object):
                 if type(value) is str:
                     if len(value) < attr[2]:
                         ele.update({attr[0] : value})
+                else:
+                    return False
             elif attr[1] == 'integer':
                 if type(value) is int:
                     if len(attr) is 2:
@@ -79,6 +81,10 @@ class Table(object):
                     elif len(attr) is 4:
                         if value >= attr[2] and value <= attr[3]:
                             ele.update({attr[0] : value})
+                        else:
+                            return False
+                else:
+                    return False
 
         # check primary key is unique in element[]
         # ------------------
@@ -86,12 +92,13 @@ class Table(object):
         for key in self.table['elements']:
             if key == str(ele[primary_key]):
                 print('Error: there has been a row with same primary key.'+ primary_key + ": " + ele[primary_key])
-                return 0
+                return False
         
         # cuz in JSON key value cannot be int
         # so we change all primary key value to string
         # add the ele into table
         self.table['elements'].update( { str(ele[primary_key]) : ele})
+        return True
 
 
     # delete <table> <primary_key>

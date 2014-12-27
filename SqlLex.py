@@ -25,7 +25,8 @@ reserved = {
     'integer'   : 'INTEGER',
     'character' : 'CHARACTER',
     'range'     : 'RANGE',
-    'exit'      : 'EXIT'
+    'exit'      : 'EXIT',
+    'get'       : 'GET',
 }
 
 tokens = list(reserved.values()) + [

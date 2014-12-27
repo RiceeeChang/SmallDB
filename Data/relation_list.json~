@@ -1,1 +1,1 @@
-{"NUMBER": 
+{"list": [{"attribute": [["SID", "integer"]], "primary_key": "SID", "name": "NUMBER"}]}
