@@ -12,26 +12,23 @@ import argparse
 import re
 import cgi
 
-class LocalData(object):
-	records = {}
 
 class HTTPRequestHandler(BaseHTTPRequestHandler):
 	def do_POST(self):
 		if None is not re.search('/api/v1/addrecord/*', self.path):
 			ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
 			
-			print ctype
+			print(ctype)
 			if ctype == 'application/json':
 				length = int(self.headers.getheader('content-length'))
 				data = cgi.parse_qs(self.rfile.read(length), keep_blank_values=1)
 				
 				# input json data to 
-				recordID = self.path.split('/')[-1]
-				LocalData.records[recordID] = data
-				print "record $s is added successfully", recordID
+				print('data = ', data)				
 			else:
 				data = {}
-
+				print('ctype = ', ctype)
+				print('data = ', data)	
 				self.send_response(200)
 				self.end_headers()
 		else:
@@ -88,12 +85,12 @@ class SimpleHttpServer():
 		self.waitForThread()
 
 if __name__ == '__main__':
-	parser = argparse.ArgumentParser(description='HTTP Server')
-	parser.add_argument('port', type=int, help='Listening port for HTTP Server')
-	parser.add_argument('ip', help='HTTP Server IP')
-	args = parser.parse_args()
+	#parser = argparse.ArgumentParser(description='HTTP Server')
+	#parser.add_argument('port', type=int, help='Listening port for HTTP Server')
+	#parser.add_argument('ip', help='HTTP Server IP')
+	#args = parser.parse_args()
 
-	server = SimpleHttpServer(args.ip, args.port)
-	print 'HTPP Server Running..........'
+	server = SimpleHttpServer('127.0.0.1', 5566)
+	print('HTPP Server Running..........')
 	server.start()
 	server.waitForThread()
