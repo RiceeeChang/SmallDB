@@ -4,7 +4,7 @@
 #
 #---------------------------------------
 import ply.yacc as yacc
-import http.client
+
 import sys
 import json
 import os
@@ -31,13 +31,6 @@ table_list = []
 with open('Data/table_list.json', 'r+') as datafile:
     table_list = json.load(datafile)
     print(table_list)
-
-
-# Setting http connection
-connection = http.client.HTTPSConnection('localhost')
-headers = {'Content-type' : 'application/json'}
-
-
 
 def p_command(p):
     '''command : define_cmd
