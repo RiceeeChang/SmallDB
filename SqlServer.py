@@ -12,10 +12,7 @@ import argparse
 import re
 import cgi
 
-import SqlYacc.yacc as yacc
-
-parser = yacc.yacc()
-
+from SqlYacc import parser
 
 class HTTPRequestHandler(BaseHTTPRequestHandler):
 	def do_POST(self):
@@ -27,12 +24,15 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 			data = cgi.parse_qs(self.rfile.read(length), keep_blank_values=1)
 			command = data['command'][0]
 			
-			# input json data to 
+			# do command
 			print('cmd = ', command)
+			result = parser.parse(command)
+
+			# input json data to 
 			self.send_response(200)
 			self.send_header('Content-Type', 'application/json')
 			self.end_headers()
-			self.wfile.write({'response': 'ok'})
+			self.wfile.write(result)
 
 		else:
 			self.send_response(403)
