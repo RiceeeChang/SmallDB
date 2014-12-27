@@ -5,8 +5,8 @@
 # -------------------------------------------
 
 
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-from SocketServer import ThreadingMixIn
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from socketserver import ThreadingMixIn
 import threading
 import argparse
 import re
@@ -15,46 +15,39 @@ import cgi
 
 class HTTPRequestHandler(BaseHTTPRequestHandler):
 	def do_POST(self):
-		if None is not re.search('/api/v1/addrecord/*', self.path):
-			ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+		ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
 			
-			print(ctype)
-			if ctype == 'application/json':
-				length = int(self.headers.getheader('content-length'))
-				data = cgi.parse_qs(self.rfile.read(length), keep_blank_values=1)
-				
-				# input json data to 
-				print('data = ', data)				
-			else:
-				data = {}
-				print('ctype = ', ctype)
-				print('data = ', data)	
-				self.send_response(200)
-				self.end_headers()
+		print(ctype)
+		if ctype == 'application/x-www-form-urlencoded':
+			length = int(self.headers.getheader('content-length'))
+			data = cgi.parse_qs(self.rfile.read(length), keep_blank_values=1)
+			command = data['command'][0]
+			# input json data to 
+			print('cmd = ', command)				
 		else:
-			self.send_response(403)
-			self.send_header('Content-Type', 'application/json')
+			data = {}
+			print('ctype = ', ctype)
+			print('data = ', data)	
+			self.send_response(200)
 			self.end_headers()
 
 		return
 
 	def do_GET(self):
-		if None is not re.search('/api/v1/getrecord/*', self.path):
-			recordID = self.path.split('/')[-1]
 			
-			if LocalData.records.has_key(recordID):
-				self.send_response(200)
-				self.send_header('Content-Type')
-				self.end_headers()
-				self.wfile.write(LocalData.records[recordID])
-			else:
-				self.send_response(400, 'Bad Request: record does not exist.')
-				self.send_header('Content-Type', 'application/json')
-				self.end_headers()
+		if LocalData.records.has_key(recordID):
+			self.send_response(200)
+			self.send_header('Content-Type')
+			self.end_headers()
+			self.wfile.write(LocalData.records[recordID])
 		else:
-			self.send_response(403)
+			self.send_response(400, 'Bad Request: record does not exist.')
 			self.send_header('Content-Type', 'application/json')
 			self.end_headers()
+		
+			#self.send_response(403) forbidden
+			#self.send_header('Content-Type', 'application/json')
+			#self.end_headers()
 
 		return
 
