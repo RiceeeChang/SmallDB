@@ -26,11 +26,11 @@ global temp_rel
 relation_list = []
 with open('Data/relation_list.json', 'r+') as datafile:
     relation_list = json.load(datafile)
-    #print(relation_list)
+    print(relation_list)
 table_list = []
 with open('Data/table_list.json', 'r+') as datafile:
     table_list = json.load(datafile)
-    #print(table_list)
+    print(table_list)
 
 def p_command(p):
     '''command : define_cmd
@@ -42,6 +42,7 @@ def p_command(p):
                | select_cmd
                | get_cmd
                | exit_cmd'''
+    p[0] = p[1]
 
 def p_exit_cmd(p):
     # exit database system
@@ -54,17 +55,23 @@ def p_get_cmd(p):
 
     # check state -----------------------------
     if not isCmdState:
-        return {'response' : 'You cannot do this command. plz finish define relation first.'}
+        p[0] =  {'response' : 'You cannot do this command. plz finish define relation first.'}
+        return 
 
     # Do command ------------------------------
     if p[2] == 'table':
-        return {'response' : table_list}
+        print("get table");
+        p[0] =  {'response' : table_list}
+        return
     elif p[2] == 'relation':
-        return {'response' : relation_list}
+        p[0] =  {'response' : relation_list}
+        return 
     else:
-        return {'response' : 'error'}
+        p[0] =  {'response' : 'error'}
+        return
 
-    return {'response' : 'success'}
+    p[0] =  {'response' : 'success'}
+    return 
 
 
 def p_define_cmd(p):
@@ -75,11 +82,13 @@ def p_define_cmd(p):
 
     # check state
     if not isCmdState:
-        return {'response' : 'You cannot do this command. plz finish define relation first.'}
+        p[0] =  {'response' : 'You cannot do this command. plz finish define relation first.'}
+        return 
     
     temp_rel = Relation(p[3])
     isCmdState = False
-    return {'response' : 'success'}
+    p[0] =  {'response' : 'success'}
+    return
 
 
 def p_set_cmd(p):
@@ -96,7 +105,8 @@ def p_set_cmd(p):
 
     # check state -----------------------------
     if isCmdState:
-        return {'response' : 'You cannot do this command. plz finish define relation first.'}
+        p[0] =  {'response' : 'You cannot do this command. plz finish define relation first.'}
+        return 
     
     if p[3] == 'character':
         temp_rel.attribute.append((p[5], p[3], p[4]))
@@ -114,7 +124,8 @@ def p_set_cmd(p):
             with open('Data/relation_list.json', 'w') as datafile:
                 json.dump(relation_list, datafile)
 
-    return {'response' : 'success'}
+    p[0] =  {'response' : 'success'}
+    return 
 
 
 
@@ -124,7 +135,8 @@ def p_create_cmd(p):
 
     # check state ---------------------------------------
     if not isCmdState:
-        return {'response' : 'You cannot do this command. plz finish define relation first.'}
+        p[0] =  {'response' : 'You cannot do this command. plz finish define relation first.'}
+        return 
 
     # Do command ----------------------------------------
     relation_name = p[3]
@@ -133,7 +145,8 @@ def p_create_cmd(p):
         table = Table(p[4], relation_list[p[3]]['primary_key'], relation_list[p[3]]['attribute'], {})
         process.createTable(table_name, table)
     else:
-        return {'response' : 'Error: relation "' + relation_name + '" is not exist.'}
+        p[0] =  {'response' : 'Error: relation "' + relation_name + '" is not exist.'}
+        return 
 
     # renew and write the table list file
     table_list = []
@@ -143,7 +156,8 @@ def p_create_cmd(p):
     with open('Data/table_list.json', 'w+') as datafile:
         json.dump(table_list, datafile)
 
-    return {'response' : 'success'}
+    p[0] =  {'response' : 'success'}
+    return
 
     
 def p_insert_cmd(p):
@@ -152,7 +166,8 @@ def p_insert_cmd(p):
 
     # check state ---------------------------------------
     if not isCmdState:
-        return {'response' : 'You cannot do this command. plz finish define relation first.'}
+        p[0] =  {'response' : 'You cannot do this command. plz finish define relation first.'}
+        return
 
     table_name = p[2]
     table = process.readTable(table_name)
@@ -160,9 +175,11 @@ def p_insert_cmd(p):
         table.addElement(p[3])
         process.writeTable(table_name, table)
     else:
-        return {'response' : 'success'}
+        p[0] =  {'response' : 'success'}
+        return 
 
-    return {'response' : 'success'}
+    p[0] =  {'response' : 'success'}
+    return
 
 def p_attribute_expr(p):
     # <attribute_value> <attribute_expr>
@@ -181,14 +198,16 @@ def p_delete_cmd(p):
     
     # check state ---------------------------------------
     if not isCmdState:
-        return {'response' : 'You cannot do this command. plz finish define relation first.'}
+        p[0] =  {'response' : 'You cannot do this command. plz finish define relation first.'}
+        return 
 
     table_name = p[2]
     table = process.readTable(table_name)
     table.delElement(p[3])
     process.writeTable(table_name, table)
 
-    return {'response' : 'success'}
+    p[0] =  {'response' : 'success'}
+    return 
 
 def p_update_cmd(p):
     # update <table_name> <primary_key_value> (<attribute_value>)+
@@ -196,14 +215,15 @@ def p_update_cmd(p):
     
     # check state ---------------------------------------
     if not isCmdState:
-        return {'response' : 'You cannot do this command. plz finish define relation first.'}
+        p[0] =  {'response' : 'You cannot do this command. plz finish define relation first.'}
+        return 
 
     table_name = p[2]
     element = (p[3],) + p[4]
     table = process.readTable(table_name)
     table.updateElement(p[3], element)
     process.writeTable(table_name, table)
-    return {'response' : 'success'}
+    p[0] =  {'response' : 'success'}
 
 def p_select_cmd(p):
     # select <attribute_name> from <table_name> where <expr>
@@ -213,7 +233,8 @@ def p_select_cmd(p):
     
     # check state ---------------------------------------
     if not isCmdState:
-        return {'response' : 'You cannot do this command. plz finish define relation first.'}
+        p[0] =  {'response' : 'You cannot do this command. plz finish define relation first.'}
+        return 
 
     # read table from file
     table_name = p[4]
@@ -246,7 +267,8 @@ def p_select_cmd(p):
                     temp_table['elements'].update({ key : table['elements'][key][attribute]})
 
     # Send result table to client
-    return {'response' : temp_table}
+    p[0] =  {'response' : temp_table}
+    return 
 
 def p_expr(p):
     # <attribute_name> [=|>|<] <value>
@@ -254,11 +276,13 @@ def p_expr(p):
             | WORD GREATER NUMBER
             | WORD LESS NUMBER'''
     p[0] = (p[1], p[2], p[3])
+    return
 
 # Error rule for syntax errors
 def p_error(p):
     print("Syntax error in " + p.value)
-    return {'response' : 'somthing error'}
+    p[0] =  {'response' : 'somthing error'}
+    return
 
 
 
@@ -280,5 +304,5 @@ if __name__ == '__main__':
 
         if not s: continue
         result = parser.parse(s)
-    # print(result)
+        print(result)
 
