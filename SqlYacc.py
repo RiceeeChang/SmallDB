@@ -281,8 +281,7 @@ def p_expr(p):
 # Error rule for syntax errors
 def p_error(p):
     print("Syntax error in " + p.value)
-    p[0] =  {'response' : 'somthing error'}
-    return
+    return {'response' : 'somthing error'}
 
 
 
