@@ -5,9 +5,9 @@ _tabversion = '3.2'
 
 _lr_method = 'LALR'
 
-_lr_signature = b'\xe4O\xb7P\xc2aa\xd7\xd0\x1e\x02\x03\x15hO\x98'
+_lr_signature = b'z(&h\xd0\x0fxu\xdem\xb9\xafow,\xaf'
     
-_lr_action_items = {'PRIMARY':([3,],[23,]),'EXIT':([0,],[20,]),'GET':([0,],[11,]),'SELECT':([0,],[6,]),'FROM':([28,],[41,]),'EQUAL':([59,],[64,]),'DELETE':([0,],[4,]),'INTEGER':([22,],[35,]),'CREATE':([0,],[5,]),'INSERT':([0,],[16,]),'ATTRIBUTE':([3,],[22,]),'WORD':([4,6,16,18,24,26,27,31,33,35,36,40,41,43,44,45,47,57,],[25,28,31,32,37,39,40,43,46,48,49,50,51,43,43,43,55,59,]),'CHARACTER':([22,],[34,]),'WHERE':([51,],[57,]),'LESS':([59,],[63,]),'NUMBER':([25,31,32,34,43,44,45,56,58,62,63,64,],[38,44,45,47,44,44,44,58,61,65,66,67,]),'SET':([0,],[3,]),'$end':([1,2,7,8,9,10,12,13,14,15,17,20,21,29,30,37,38,39,42,43,44,46,48,49,50,51,52,53,54,55,60,61,65,66,67,],[-6,-3,-9,-5,-11,-2,-10,-7,-4,0,-1,-12,-8,-14,-13,-22,-28,-21,-23,-26,-27,-15,-18,-19,-20,-31,-24,-25,-29,-16,-30,-17,-33,-34,-32,]),'RELATION':([4,11,19,],[26,29,33,]),'TABLE':([4,5,11,],[24,27,30,]),'UPDATE':([0,],[18,]),'DEFINE':([0,],[19,]),'GREATER':([59,],[62,]),'KEY':([23,],[36,]),'RANGE':([48,],[56,]),}
+_lr_action_items = {'GET':([0,],[5,]),'SELECT':([0,],[4,]),'WORD':([4,6,10,14,25,27,28,29,30,34,39,40,41,43,45,46,52,55,],[22,26,30,31,35,37,38,39,40,47,48,40,40,40,53,54,56,58,]),'DELETE':([0,],[6,]),'DEFINE':([0,],[8,]),'EQUAL':([58,],[62,]),'RELATION':([5,6,8,],[24,27,28,]),'RANGE':([53,],[57,]),'CREATE':([0,],[9,]),'INTEGER':([32,],[45,]),'EXIT':([0,],[20,]),'$end':([1,2,3,7,11,12,13,15,16,17,18,19,20,23,24,35,36,37,38,40,41,42,47,48,49,50,51,53,54,56,59,64,65,66,67,],[0,-9,-8,-4,-1,-6,-5,-2,-11,-10,-7,-3,-12,-13,-14,-22,-28,-21,-15,-26,-27,-23,-31,-20,-24,-25,-29,-18,-19,-16,-30,-17,-34,-32,-33,]),'TABLE':([5,6,9,],[23,25,29,]),'PRIMARY':([21,],[33,]),'UPDATE':([0,],[14,]),'ATTRIBUTE':([21,],[32,]),'KEY':([33,],[46,]),'LESS':([58,],[61,]),'NUMBER':([26,30,31,40,41,43,44,57,60,61,62,63,],[36,41,43,41,41,41,52,60,64,65,66,67,]),'FROM':([22,],[34,]),'WHERE':([47,],[55,]),'CHARACTER':([32,],[44,]),'INSERT':([0,],[10,]),'GREATER':([58,],[63,]),'SET':([0,],[21,]),}
 
 _lr_action = { }
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'set_cmd':([0,],[10,]),'expr':([57,],[60,]),'update_cmd':([0,],[1,]),'create_cmd':([0,],[2,]),'delete_relation_cmd':([0,],[12,]),'select_cmd':([0,],[13,]),'insert_cmd':([0,],[14,]),'command':([0,],[15,]),'attribute_expr':([31,43,44,45,],[42,52,53,54,]),'define_cmd':([0,],[17,]),'delete_cmd':([0,],[8,]),'exit_cmd':([0,],[9,]),'get_cmd':([0,],[21,]),'delete_table_cmd':([0,],[7,]),}
+_lr_goto_items = {'command':([0,],[1,]),'delete_table_cmd':([0,],[2,]),'get_cmd':([0,],[3,]),'attribute_expr':([30,40,41,43,],[42,49,50,51,]),'insert_cmd':([0,],[7,]),'set_cmd':([0,],[15,]),'expr':([55,],[59,]),'exit_cmd':([0,],[16,]),'delete_relation_cmd':([0,],[17,]),'select_cmd':([0,],[18,]),'create_cmd':([0,],[19,]),'define_cmd':([0,],[11,]),'update_cmd':([0,],[12,]),'delete_cmd':([0,],[13,]),}
 
 _lr_goto = { }
 for _k, _v in _lr_goto_items.items():
@@ -26,38 +26,38 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> command","S'",1,None,None,None),
-  ('command -> define_cmd','command',1,'p_command','SqlYacc.py',36),
-  ('command -> set_cmd','command',1,'p_command','SqlYacc.py',37),
-  ('command -> create_cmd','command',1,'p_command','SqlYacc.py',38),
-  ('command -> insert_cmd','command',1,'p_command','SqlYacc.py',39),
-  ('command -> delete_cmd','command',1,'p_command','SqlYacc.py',40),
-  ('command -> update_cmd','command',1,'p_command','SqlYacc.py',41),
-  ('command -> select_cmd','command',1,'p_command','SqlYacc.py',42),
-  ('command -> get_cmd','command',1,'p_command','SqlYacc.py',43),
-  ('command -> delete_table_cmd','command',1,'p_command','SqlYacc.py',44),
-  ('command -> delete_relation_cmd','command',1,'p_command','SqlYacc.py',45),
-  ('command -> exit_cmd','command',1,'p_command','SqlYacc.py',46),
-  ('exit_cmd -> EXIT','exit_cmd',1,'p_exit_cmd','SqlYacc.py',50),
-  ('get_cmd -> GET TABLE','get_cmd',2,'p_get_cmd','SqlYacc.py',55),
-  ('get_cmd -> GET RELATION','get_cmd',2,'p_get_cmd','SqlYacc.py',56),
-  ('define_cmd -> DEFINE RELATION WORD','define_cmd',3,'p_define_cmd','SqlYacc.py',77),
-  ('set_cmd -> SET ATTRIBUTE CHARACTER NUMBER WORD','set_cmd',5,'p_set_cmd','SqlYacc.py',94),
-  ('set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER','set_cmd',7,'p_set_cmd','SqlYacc.py',95),
-  ('set_cmd -> SET ATTRIBUTE INTEGER WORD','set_cmd',4,'p_set_cmd','SqlYacc.py',96),
-  ('set_cmd -> SET PRIMARY KEY WORD','set_cmd',4,'p_set_cmd','SqlYacc.py',97),
-  ('create_cmd -> CREATE TABLE WORD WORD','create_cmd',4,'p_create_cmd','SqlYacc.py',132),
-  ('delete_relation_cmd -> DELETE RELATION WORD','delete_relation_cmd',3,'p_delete_relation_cmd','SqlYacc.py',162),
-  ('delete_table_cmd -> DELETE TABLE WORD','delete_table_cmd',3,'p_delete_table_cmd','SqlYacc.py',176),
-  ('insert_cmd -> INSERT WORD attribute_expr','insert_cmd',3,'p_insert_cmd','SqlYacc.py',190),
-  ('attribute_expr -> WORD attribute_expr','attribute_expr',2,'p_attribute_expr','SqlYacc.py',219),
-  ('attribute_expr -> NUMBER attribute_expr','attribute_expr',2,'p_attribute_expr','SqlYacc.py',220),
-  ('attribute_expr -> WORD','attribute_expr',1,'p_attribute_expr','SqlYacc.py',221),
-  ('attribute_expr -> NUMBER','attribute_expr',1,'p_attribute_expr','SqlYacc.py',222),
-  ('delete_cmd -> DELETE WORD NUMBER','delete_cmd',3,'p_delete_cmd','SqlYacc.py',230),
-  ('update_cmd -> UPDATE WORD NUMBER attribute_expr','update_cmd',4,'p_update_cmd','SqlYacc.py',247),
-  ('select_cmd -> SELECT WORD FROM WORD WHERE expr','select_cmd',6,'p_select_cmd','SqlYacc.py',263),
-  ('select_cmd -> SELECT WORD FROM WORD','select_cmd',4,'p_select_cmd','SqlYacc.py',264),
-  ('expr -> WORD EQUAL NUMBER','expr',3,'p_expr','SqlYacc.py',308),
-  ('expr -> WORD GREATER NUMBER','expr',3,'p_expr','SqlYacc.py',309),
-  ('expr -> WORD LESS NUMBER','expr',3,'p_expr','SqlYacc.py',310),
+  ('command -> define_cmd','command',1,'p_command','SqlYacc.py',48),
+  ('command -> set_cmd','command',1,'p_command','SqlYacc.py',49),
+  ('command -> create_cmd','command',1,'p_command','SqlYacc.py',50),
+  ('command -> insert_cmd','command',1,'p_command','SqlYacc.py',51),
+  ('command -> delete_cmd','command',1,'p_command','SqlYacc.py',52),
+  ('command -> update_cmd','command',1,'p_command','SqlYacc.py',53),
+  ('command -> select_cmd','command',1,'p_command','SqlYacc.py',54),
+  ('command -> get_cmd','command',1,'p_command','SqlYacc.py',55),
+  ('command -> delete_table_cmd','command',1,'p_command','SqlYacc.py',56),
+  ('command -> delete_relation_cmd','command',1,'p_command','SqlYacc.py',57),
+  ('command -> exit_cmd','command',1,'p_command','SqlYacc.py',58),
+  ('exit_cmd -> EXIT','exit_cmd',1,'p_exit_cmd','SqlYacc.py',62),
+  ('get_cmd -> GET TABLE','get_cmd',2,'p_get_cmd','SqlYacc.py',67),
+  ('get_cmd -> GET RELATION','get_cmd',2,'p_get_cmd','SqlYacc.py',68),
+  ('define_cmd -> DEFINE RELATION WORD','define_cmd',3,'p_define_cmd','SqlYacc.py',89),
+  ('set_cmd -> SET ATTRIBUTE CHARACTER NUMBER WORD','set_cmd',5,'p_set_cmd','SqlYacc.py',106),
+  ('set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER','set_cmd',7,'p_set_cmd','SqlYacc.py',107),
+  ('set_cmd -> SET ATTRIBUTE INTEGER WORD','set_cmd',4,'p_set_cmd','SqlYacc.py',108),
+  ('set_cmd -> SET PRIMARY KEY WORD','set_cmd',4,'p_set_cmd','SqlYacc.py',109),
+  ('create_cmd -> CREATE TABLE WORD WORD','create_cmd',4,'p_create_cmd','SqlYacc.py',144),
+  ('delete_relation_cmd -> DELETE RELATION WORD','delete_relation_cmd',3,'p_delete_relation_cmd','SqlYacc.py',175),
+  ('delete_table_cmd -> DELETE TABLE WORD','delete_table_cmd',3,'p_delete_table_cmd','SqlYacc.py',189),
+  ('insert_cmd -> INSERT WORD attribute_expr','insert_cmd',3,'p_insert_cmd','SqlYacc.py',203),
+  ('attribute_expr -> WORD attribute_expr','attribute_expr',2,'p_attribute_expr','SqlYacc.py',232),
+  ('attribute_expr -> NUMBER attribute_expr','attribute_expr',2,'p_attribute_expr','SqlYacc.py',233),
+  ('attribute_expr -> WORD','attribute_expr',1,'p_attribute_expr','SqlYacc.py',234),
+  ('attribute_expr -> NUMBER','attribute_expr',1,'p_attribute_expr','SqlYacc.py',235),
+  ('delete_cmd -> DELETE WORD NUMBER','delete_cmd',3,'p_delete_cmd','SqlYacc.py',243),
+  ('update_cmd -> UPDATE WORD NUMBER attribute_expr','update_cmd',4,'p_update_cmd','SqlYacc.py',260),
+  ('select_cmd -> SELECT WORD FROM WORD WHERE expr','select_cmd',6,'p_select_cmd','SqlYacc.py',276),
+  ('select_cmd -> SELECT WORD FROM WORD','select_cmd',4,'p_select_cmd','SqlYacc.py',277),
+  ('expr -> WORD EQUAL NUMBER','expr',3,'p_expr','SqlYacc.py',321),
+  ('expr -> WORD GREATER NUMBER','expr',3,'p_expr','SqlYacc.py',322),
+  ('expr -> WORD LESS NUMBER','expr',3,'p_expr','SqlYacc.py',323),
 ]

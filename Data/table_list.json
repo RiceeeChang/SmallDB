@@ -1,1 +1,1 @@
-["NUMBER", "rce", "STUDENT_DB", "STUDENT_DB_2"]
+[{"name": "STUDENT_DB", "attribute": [["SID", "integer"], ["SNAME", "character", 20]], "primary_key": "SID"}]

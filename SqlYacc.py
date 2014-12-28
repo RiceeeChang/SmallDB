@@ -23,14 +23,26 @@ isCmdState = True
 
 # Relation and Table dictionary to collect used relation and table
 global temp_rel
+
 relation_list = []
-with open('Data/relation_list.json', 'r+') as datafile:
-    relation_list = json.load(datafile)
-    print(relation_list)
+if os.path.exists('Data/relation_list.json'):
+    with open('Data/relation_list.json', 'r+') as datafile:
+        relation_list = json.load(datafile)
+        print(relation_list)
+else:
+    with open('Data/relation_list.json', 'w+') as datafile:
+        json.dump(relation_list, datafile)
+        datafile.close()
+
 table_list = []
-with open('Data/table_list.json', 'r+') as datafile:
-    table_list = json.load(datafile)
-    print(table_list)
+if os.path.exists('Data/table_list.json'):
+    with open('Data/table_list.json', 'r+') as datafile:
+        table_list = json.load(datafile)
+        print(table_list)
+else:
+    with open('Data/table_list.json', 'w+') as datafile:
+        json.dump(table_list, datafile)
+        datafile.close()
 
 def p_command(p):
     '''command : define_cmd
@@ -148,7 +160,8 @@ def p_create_cmd(p):
             #table_list = []
             #with open('Data/table_list.json', 'r+') as datafile:
                 #table_list = json.load(datafile)
-            table_list.append(table_name)
+
+            table_list.append( {'name': table_name, 'primary_key': relation['primary_key'], 'attribute': relation['attribute']} )
             with open('Data/table_list.json', 'w+') as datafile:
                 json.dump(table_list, datafile)
 

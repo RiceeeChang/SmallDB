@@ -92,7 +92,7 @@ class Table(object):
         # row - is the key in the table['elements']
         for key in self.table['elements']:
             if key == str(ele[primary_key]):
-                return ('response' : 'Error: there has been a row with same primary key. ' + primary_key + " : " + str(ele[primary_key]))
+                return ({'response' : 'Error: there has been a row with same primary key. ' + primary_key + " : " + str(ele[primary_key])})
         
         # cuz in JSON key value cannot be int
         # so we change all primary key value to string
