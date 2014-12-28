@@ -1,1 +1,1 @@
-{"primary_key": "SID", "name": "STUDENT_DB", "attribute": [["SID", "integer"], ["NAME", "character", 20]], "elements": {"101": {"SID": 101, "NAME": "rice"}}}
+{"primary_key": "SID", "elements": {"101": {"SNAME": "rice", "SID": 101, "SPOINT2": 100, "SPOINT1": 0}}, "attribute": [["SID", "integer"], ["SNAME", "character", 20], ["SPOINT1", "integer", 0, 100], ["SPOINT2", "integer", 0, 100]], "name": "STUDENT_DB"}

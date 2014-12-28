@@ -69,11 +69,11 @@ class Table(object):
         # add the value into ele
         for attr, value in zip(attribute, element):
             if attr[1] == 'character':
-                if type(value) is str:
-                    if len(value) < attr[2]:
-                        ele.update({attr[0] : value})
+                value = str(value)
+                if len(value) < attr[2]:
+                    ele.update({attr[0] : value})
                 else:
-                    return False
+                    return {'response' : value + 'is over the ' + attr[0] + ' lenth limit.'}
             elif attr[1] == 'integer':
                 if type(value) is int:
                     if len(attr) is 2:
@@ -82,17 +82,17 @@ class Table(object):
                         if value >= attr[2] and value <= attr[3]:
                             ele.update({attr[0] : value})
                         else:
-                            return False
+                            return {'response' : str(value) + ' is out of range.'}
                 else:
-                    return False
+                    value = str(value)
+                    return {'response' : value  + ' is not integer.'}
 
         # check primary key is unique in element[]
         # ------------------
         # row - is the key in the table['elements']
         for key in self.table['elements']:
             if key == str(ele[primary_key]):
-                print('Error: there has been a row with same primary key.'+ primary_key + ": " + ele[primary_key])
-                return False
+                return ('Error: there has been a row with same primary key. ' + primary_key + " : " + str(ele[primary_key]))
         
         # cuz in JSON key value cannot be int
         # so we change all primary key value to string

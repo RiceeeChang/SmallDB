@@ -41,6 +41,8 @@ def p_command(p):
                | update_cmd
                | select_cmd
                | get_cmd
+               | delete_table_cmd
+               | delete_relation_cmd
                | exit_cmd'''
     p[0] = p[1]
 
@@ -61,14 +63,11 @@ def p_get_cmd(p):
     # Do command ------------------------------
     if p[2] == 'table':
         print("get table");
-        p[0] =  {'response' : table_list}
+        p[0] =  {'response' : 'success', 'data' : table_list}
         return
     elif p[2] == 'relation':
-        p[0] =  {'response' : relation_list}
+        p[0] =  {'response' : 'success', 'data' : relation_list}
         return 
-    else:
-        p[0] =  {'response' : 'error'}
-        return
 
     p[0] =  {'response' : 'success'}
     return 
@@ -114,7 +113,7 @@ def p_set_cmd(p):
         if len(p) is 5:
             temp_rel.attribute.append((p[4], p[3]))
         elif len(p) is 8:
-            temp_rel.attribute.appedn((p[4], p[3], p[5], p[6]))
+            temp_rel.attribute.append((p[4], p[3], p[6], p[7]))
     elif p[3] == 'key':
         if temp_rel.setPrimary_key(p[4]):
             # add new relation into relation list
@@ -141,24 +140,51 @@ def p_create_cmd(p):
     # Do command ----------------------------------------
     relation_name = p[3]
     table_name = p[4]
-    if relation_name in relation_list:
-        table = Table(p[4], relation_list[p[3]]['primary_key'], relation_list[p[3]]['attribute'], {})
-        process.createTable(table_name, table)
-    else:
-        p[0] =  {'response' : 'Error: relation "' + relation_name + '" is not exist.'}
-        return 
+    for relation in relation_list:
+        if relation['name'] == relation_name:
+            table = Table(table_name, relation['primary_key'], relation['attribute'], {})
+            process.createTable(table_name, table)
+            # renew and write the table list file
+            #table_list = []
+            #with open('Data/table_list.json', 'r+') as datafile:
+                #table_list = json.load(datafile)
+            table_list.append(table_name)
+            with open('Data/table_list.json', 'w+') as datafile:
+                json.dump(table_list, datafile)
 
-    # renew and write the table list file
-    table_list = []
-    with open('Data/table_list.json', 'r+') as datafile:
-        table_list = json.load(datafile)
-    table_list.append(table_name)
-    with open('Data/table_list.json', 'w+') as datafile:
-        json.dump(table_list, datafile)
+            p[0] =  {'response' : 'success'}
+            return
 
-    p[0] =  {'response' : 'success'}
+    p[0] =  {'response' : 'Error: relation "' + relation_name + '" is not exist.'}
+    return 
+
+def p_delete_relation_cmd(p):   
+    '''delete_relation_cmd : DELETE RELATION WORD'''
+    relation_name = p[3]
+    for relation in relation_list:
+        if relation['name'] == relation_name:
+            relation_list.remove(relation)
+            with open('Data/relation_list.json', 'w+') as datafile:
+                json.dump(relation_list, datafile)
+            p[0] =  {'response' : 'success'}
+            return
+
+    p[0] = {'response' : 'Error: relation "' + relation_name + '" is not exist.'}
+    return 
+
+def p_delete_table_cmd(p):
+    '''delete_table_cmd : DELETE TABLE WORD'''
+    table_name = p[3]
+    if table_name in table_list:
+        table_list.remove(table_name)
+        with open('Data/table_list.json', 'w+') as datafile:
+            json.dump(table_list, datafile)
+        os.remove('Data/' + table_name + '.json')
+        p[0] =  {'response' : 'success'}
+        return
+
+    p[0] = {'response' : 'Error: Table "' + table_name + '" is not exist.'}
     return
-
     
 def p_insert_cmd(p):
     # insert <table_name> (<attribute_value>)+
@@ -166,20 +192,28 @@ def p_insert_cmd(p):
 
     # check state ---------------------------------------
     if not isCmdState:
-        p[0] =  {'response' : 'You cannot do this command. plz finish define relation first.'}
+        p[0] = {'response' : 'You cannot do this command. plz finish define relation first.'}
         return
+
+    if p[3][0] is 'null':
+        p[0] = {'response' : 'primary key cannot be null'}
+        return
+
 
     table_name = p[2]
     table = process.readTable(table_name)
-    if table is not None:
-        table.addElement(p[3])
-        process.writeTable(table_name, table)
+    if table is not None:  # table exist
+        result = table.addElement(p[3])
+        if result is True: # no error while adding 
+            process.writeTable(table_name, table)
+            p[0] =  {'response' : 'success'}
+            return 
+        else:
+            p[0] = result
+            return
     else:
-        p[0] =  {'response' : 'success'}
-        return 
-
-    p[0] =  {'response' : 'success'}
-    return
+        p[0] = {'response' : 'No table named ' + table_name}
+        return
 
 def p_attribute_expr(p):
     # <attribute_value> <attribute_expr>
@@ -267,7 +301,7 @@ def p_select_cmd(p):
                     temp_table['elements'].update({ key : table['elements'][key][attribute]})
 
     # Send result table to client
-    p[0] =  {'response' : temp_table}
+    p[0] =  {'response' : 'success', 'data' : temp_table}
     return 
 
 def p_expr(p):
@@ -280,7 +314,7 @@ def p_expr(p):
 
 # Error rule for syntax errors
 def p_error(p):
-    print("Syntax error in " + p.value)
+    print("Syntax error in ", p.value)
     return {'response' : 'somthing error'}
 
 
@@ -297,7 +331,7 @@ if __name__ == '__main__':
     
     while True:
         try:
-            s = input('parser > ')
+            s = input('sql > ')
         except EOFError:
             break
 

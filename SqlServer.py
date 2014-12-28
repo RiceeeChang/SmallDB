@@ -29,6 +29,8 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 			# do command
 			print(('cmd = ', command))
 			result = parser.parse(command)
+			if result == None:
+				result = {'response' : 'Syntax error.'}
 
 			# input json data to 
 			self.send_response(200)
