@@ -27,6 +27,8 @@ reserved = {
     'range'     : 'RANGE',
     'exit'      : 'EXIT',
     'get'       : 'GET',
+    'reset'     : 'RESET',
+    'database'  : 'DATABASE'
 }
 
 tokens = list(reserved.values()) + [

@@ -1,1 +1,1 @@
-{"name": "STUDENT_DB", "attribute": [["SID", "integer"], ["SNAME", "character", 20]], "primary_key": "SID", "elements": {}}
+{"attribute": [["SID", "integer"], ["SNAME", "character", 20], ["SPOINT1", "integer", 0, 100], ["SPOINT2", "integer", 0, 100]], "name": "STUDENT_DB", "elements": {"101": {"SNAME": "Student_Name1", "SPOINT1": 95, "SPOINT2": 65, "SID": 101}, "104": {"SNAME": "Student_Name4", "SPOINT1": 65, "SPOINT2": 95, "SID": 104}, "105": {"SNAME": "Student_Name5", "SPOINT1": 75, "SPOINT2": 55, "SID": 105}}, "primary_key": "SID"}

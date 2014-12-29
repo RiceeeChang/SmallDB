@@ -1,0 +1,22 @@
+in command mode            : 'Error: You cannot do this command, please finish defining a relation.'
+in define mode             : 'Error: You cannot do this command, please define a relation first.'
+Relation name collision    : 'Error: Relation "' + relation_name + '" has existed in database.'
+Table name collision       : 'Error: Table "' + table_name + '" has existed in database.'
+Relation not found         : 'Error: Relation "' + relation_name + '" is not found in database.'
+table not found            : 'Error: Table "' + table_name + '" is not found in database.'
+Attribute name collision   : 'Error: Attribute "' + attribute_name + '" has existed in Relation "' + relation_name + '.'
+Attribute not found        : 'Error: Attribute "' + attribute_name + '" is not found in Relation "' + relation_name + '.'
+
+Primary key not found      : 'Error: Element of Primary key "' + key_value + '" is not found in Table "' + table_name + '.'
+Primary key collision      : 'Error: Element of Primary key "' + key_value + '" has existed in Table "' + table_name + '.'
+Primary key null           : 'Error: Value of primary key cannot be "null".'
+
+character over length      : 'Error: Character "' + attribute_name + '" length is over the limitation.'
+integer out of range       : 'Error: Integer "' + attribute_name + '" value is out of range.'
+not integer                : 'Error: "' + attribute_value + '" is not integer'
+
+
+
+
+
+

@@ -15,6 +15,10 @@ class Relation(object):
         self.attribute = []
 
     def setPrimary_key(self, key_name):
+        # check key_name is null
+        if key_name == 'null':
+            return {'response' : 'Error: Value of primary key cannot be "null".'}
+
         for attr in self.attribute:
             if key_name in attr:
                 primary = attr
@@ -22,8 +26,7 @@ class Relation(object):
                 self.attribute.insert(0, primary)
                 break;
         if primary is None:
-            print('Error: there is no attribute named ' + key_name + ' in relation')
-            return False
+            return {'response' : 'Error: Attribute "' + key_name + '" is not found in Relation "' + self.name + '.'}
         else:
             self.primary_key = key_name
             return True
@@ -31,16 +34,17 @@ class Relation(object):
     def addAttribute(self, attribute_name, attribute_type):
         for attr in self.attribute:
             if attribute_name in attr:
-                print('Error: there has been a attribute named ' + attribute_name)
-                return 0
-        attribute.append(attribute_type)
+                return {'response' : 'Error: Attribute "' + attribute_name + '" has existed in Relation "' + self.name + '.'}
 
-    def delAttribute(attribute_name):
+        self.attribute.append(attribute_type)
+        return {'response' : 'success'}
+
+    def delAttribute(self, attribute_name):
         for attr in attribute:
             if attribute_name in attr:
                 attribute.remove(attr)
-                return 0
-        print('Error: attribute "' + attribute_name + '" is not existing.')
+                return True
+        return {'response' : 'Error: Attribute "' + attribute_name + '" is not found in Relation "' + self.name + '.'}
 
 # attr format is in a tuple
 # (attribute_name, type = character, length)
@@ -73,7 +77,7 @@ class Table(object):
                 if len(value) < attr[2]:
                     ele.update({attr[0] : value})
                 else:
-                    return {'response' : value + 'is over the ' + attr[0] + ' lenth limit.'}
+                    return {'response' : 'Error: Integer "' + attr[0] + '" value is out of range.'}
             elif attr[1] == 'integer':
                 if type(value) is int:
                     if len(attr) is 2:
@@ -82,17 +86,15 @@ class Table(object):
                         if value >= attr[2] and value <= attr[3]:
                             ele.update({attr[0] : value})
                         else:
-                            return {'response' : str(value) + ' is out of range.'}
+                            return {'response' : 'Error: Integer "' + attr[0] + '" value is out of range.'}
                 else:
-                    value = str(value)
-                    return {'response' : value  + ' is not integer.'}
+                    return {'response' : 'Error: "' + str(value) + '" is not integer'}
 
         # check primary key is unique in element[]
-        # ------------------
         # row - is the key in the table['elements']
         for key in self.table['elements']:
             if key == str(ele[primary_key]):
-                return ({'response' : 'Error: there has been a row with same primary key. ' + primary_key + " : " + str(ele[primary_key])})
+                return {'response' : 'Error: Element of Primary key "' + key + '" has existed in Table "' + self.name + '.'}
         
         # cuz in JSON key value cannot be int
         # so we change all primary key value to string
@@ -105,17 +107,19 @@ class Table(object):
     def delElement(self, key_value):
         try:
             del self.table['elements'][str(key_value)]
+            return {'response' : 'success'}
         except KeyError:
-            print('Key value "' + kay_value + '" is not existing.')
+            return {'response' : 'Error: Element of Primary key "' + key_value + '" is not found in Table "' + self.name + '.'}
 
     # update <table> <primary_key> (<attribute_value>)+
     def updateElement(self, key_value, element):
         if str(key_value) in self.table['elements']:
             self.delElement(key_value)
         else:
-            print('Key value "' + kay_value + '" is not existing.')
-            return 0
+            return {'response' : 'Error: Element of Primary key "' + str(key_value) + '" is not found in Table "' + self.name + '.'}
+        
         self.addElement(element)
+        return {'response' : 'success'}
 
 def getFilePath(table_name):
     return 'Data/' + table_name + '.json'
@@ -124,11 +128,12 @@ def getFilePath(table_name):
 def createTable(table_name, table):
     path = getFilePath(table_name)
     if os.path.exists(path):
-        print('Table "' + table_name + '" has existed.')
+        return {'response' : 'Error: Table "' + table_name + '" has existed in database.'}
     else:
         with open(path, 'w+') as datafile:
             json.dump(table.table, datafile)
             datafile.close()
+        return True
             
 def readTable(table_name):
     path = getFilePath(table_name)
@@ -153,5 +158,12 @@ def writeTable(table_name, table):
             json.dump(table.table, datafile)
         return True
     else:
-        print('Table "' + table_name + '" does not exist.')
+        # print('Table "' + table_name + '" does not exist.')
         return False
+
+def deleteAll():
+    folder = 'Data'
+    for the_file in os.listdir(folder):
+        file_path = os.path.join(folder, the_file)
+        os.remove(file_path)
+    return 

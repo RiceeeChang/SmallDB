@@ -1,0 +1,25 @@
+[{"ID":1,  "testcase":"define relation STUDENT",                              "oracle":"success"}, 
+ {"ID":2,  "testcase":"set attribute integer SID",                            "oracle":"success"},
+ {"ID":3,  "testcase":"set attribute character 20 SNAME",                     "oracle":"success"},
+ {"ID":4,  "testcase":"set attribute integer SPOINT1 range 0 100",            "oracle":"success"},
+ {"ID":5,  "testcase":"set attribute integer SPOINT2 range 0 100",            "oracle":"success"},
+ {"ID":6,  "testcase":"set primary key SID", "oracle":"success"},
+
+ {"ID":7,  "testcase":"create table STUDENT STUDENT_DB",                      "oracle":"success"},
+ {"ID":8,  "testcase":"create table STUDENT STUDENT_DB_2",                    "oracle":"success"},
+
+ {"ID":9,  "testcase":"insert STUDENT_DB 101 Student_Name1 95 65",            "oracle":"success"},
+ {"ID":10, "testcase":"insert STUDENT_DB 101 Student_Name5 75 55",            "oracle":"Primary Collision"},
+ {"ID":11, "testcase":"insert STUDENT_DB_2 101 Student_Name5 175 75",         "oracle":"value out of range"},
+
+ {"ID":12, "testcase":"insert STUDENT_DB 105 Student_Name5 75 55",            "oracle":"success"},
+ {"ID":13, "testcase":"insert STUDENT_DB_2 103 Student_Name3 55 175",         "oracle":"value out of range"},
+ {"ID":14, "testcase":"insert STUDENT_DB 102 Student_Name2 85 85",            "oracle":"success"},
+ {"ID":15, "testcase":"insert STUDENT_DB 104 Student_Name4 65 95",            "oracle":"success"},
+
+ {"ID":16, "testcase":"delete STUDENT_DB 102",                                "oracle":"success"},
+ {"ID":17, "testcase":"update STUDENT_DB 103 Student_Name4 65 95",           "oracle":"success"},
+
+ {"ID":18, "testcase":"select SPOINT2 from STUDENT_DB where SPOINT1 < 70",    "oracle":"success"},
+ {"ID":19, "testcase":"select SPOINT1 from STUDENT_DB where SPOINT2 > 70",    "oracle":"success"}
+]
