@@ -32,6 +32,8 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 			if result == None:
 				result = {'response' : 'Syntax error.'}
 
+			print('result: ', result)
+
 			# input json data to 
 			self.send_response(200)
 			self.send_header('Content-Type', 'application/json')
