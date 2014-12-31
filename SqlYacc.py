@@ -56,7 +56,8 @@ def p_command(p):
                | delete_table_cmd
                | delete_relation_cmd
                | exit_cmd
-               | reset_cmd'''
+               | reset_cmd
+               | reset_relation_cmd'''
     p[0] = p[1]
 
 def p_exit_cmd(p):
@@ -167,7 +168,12 @@ def p_set_cmd(p):
     p[0] =  {'response' : 'success'}
     return 
 
-
+def p_reset_relation_cmd(p):
+    '''reset_relation_cmd : RESET RELATION'''
+    global isCmdState
+    isCmdState = True
+    p[0] = {'response' : 'success'}
+    return
 
 def p_create_cmd(p):
     # create table <relation_name> <table_name>
