@@ -330,7 +330,8 @@ def p_select_cmd(p):
     # select <attribute_name> from <table_name> where <expr>
     #      [0]       [1]   [2]  [3]  [4]  [5]   [6]
     '''select_cmd : SELECT WORD FROM WORD WHERE expr
-                  | SELECT WORD FROM WORD'''
+                  | SELECT WORD FROM WORD
+                  | SELECT ALL FROM WORD'''
     
     # check state ---------------------------------------
     if not isCmdState:
@@ -345,6 +346,11 @@ def p_select_cmd(p):
     if table is None:
         p[0] = {'response' : 'Error: Table "' + table_name + '" is not found in database.'}
         return 
+
+    # if select all 
+    if p[2] == 'all':
+    	p[0] =  {'response' : 'success', 'data' : table}
+    return 
 
     # check attribute is in table   [undo] 
     for attr in table['attribute']:

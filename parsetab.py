@@ -5,9 +5,9 @@ _tabversion = '3.2'
 
 _lr_method = 'LALR'
 
-_lr_signature = b'$ e\xa1\xb8+\xb4\xfd\xc7\x14\xee\xce\xf8\xe0\xb1\xa8'
+_lr_signature = b'"9\xff\x1c2\xc8k\xe9\xc5\n@\x96\x83\xfb\x15\xb4'
     
-_lr_action_items = {'NUMBER':([32,34,35,44,45,47,50,61,65,66,67,68,],[42,44,47,44,44,44,58,65,69,70,71,72,]),'SELECT':([0,],[14,]),'GREATER':([64,],[68,]),'RESET':([0,],[3,]),'EXIT':([0,],[4,]),'RELATION':([3,5,11,12,],[25,28,29,31,]),'GET':([0,],[5,]),'CHARACTER':([37,],[50,]),'PRIMARY':([24,],[38,]),'WORD':([12,14,16,17,29,30,31,34,36,43,44,45,47,48,49,51,58,60,],[32,33,34,35,39,40,41,45,48,52,45,45,45,56,57,59,62,64,]),'LESS':([64,],[66,]),'DELETE':([0,],[12,]),'INTEGER':([37,],[49,]),'KEY':([38,],[51,]),'WHERE':([52,],[60,]),'DEFINE':([0,],[11,]),'TABLE':([5,12,19,],[27,30,36,]),'RANGE':([57,],[61,]),'UPDATE':([0,],[17,]),'$end':([1,2,4,6,7,8,9,10,13,15,18,20,21,22,23,25,26,27,28,39,40,41,42,44,45,46,52,53,54,55,56,57,59,62,63,69,70,71,72,],[-1,-6,-14,-9,-4,-10,-12,-2,-5,-3,0,-11,-8,-13,-7,-23,-15,-16,-17,-18,-26,-25,-32,-31,-30,-27,-35,-29,-28,-33,-24,-21,-22,-19,-34,-20,-38,-36,-37,]),'DATABASE':([3,],[26,]),'CREATE':([0,],[19,]),'INSERT':([0,],[16,]),'EQUAL':([64,],[67,]),'FROM':([33,],[43,]),'ATTRIBUTE':([24,],[37,]),'SET':([0,],[24,]),}
+_lr_action_items = {'LESS':([68,],[71,]),'GET':([0,],[1,]),'DEFINE':([0,],[7,]),'RANGE':([58,],[63,]),'KEY':([33,],[48,]),'WHERE':([62,],[65,]),'ATTRIBUTE':([17,],[34,]),'TABLE':([1,13,15,],[25,29,30,]),'DATABASE':([20,],[37,]),'ALL':([24,],[38,]),'PRIMARY':([17,],[33,]),'INSERT':([0,],[9,]),'CREATE':([0,],[13,]),'DELETE':([0,],[15,]),'RELATION':([1,7,15,20,],[26,27,31,36,]),'RESET':([0,],[20,]),'SET':([0,],[17,]),'FROM':([38,39,],[52,53,]),'UPDATE':([0,],[18,]),'GREATER':([68,],[70,]),'CHARACTER':([34,],[50,]),'$end':([2,3,4,5,6,8,10,11,12,14,16,19,21,22,23,25,26,36,37,40,41,42,43,45,46,47,54,55,56,57,58,60,61,62,64,67,69,73,74,75,],[-11,-3,-10,0,-8,-9,-4,-7,-1,-12,-6,-14,-13,-2,-5,-16,-17,-23,-15,-18,-27,-31,-30,-26,-25,-32,-29,-28,-24,-22,-21,-33,-36,-35,-19,-34,-20,-38,-39,-37,]),'EXIT':([0,],[19,]),'INTEGER':([34,],[49,]),'NUMBER':([28,32,35,42,43,50,51,63,66,70,71,72,],[42,47,51,42,42,59,42,66,69,73,74,75,]),'EQUAL':([68,],[72,]),'SELECT':([0,],[24,]),'WORD':([9,15,18,24,27,28,29,30,31,42,43,44,48,49,51,52,53,59,65,],[28,32,35,39,40,43,44,45,46,43,43,56,57,58,43,61,62,64,68,]),}
 
 _lr_action = { }
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'expr':([60,],[63,]),'update_cmd':([0,],[2,]),'delete_cmd':([0,],[13,]),'define_cmd':([0,],[1,]),'delete_table_cmd':([0,],[6,]),'create_cmd':([0,],[15,]),'insert_cmd':([0,],[7,]),'delete_relation_cmd':([0,],[8,]),'command':([0,],[18,]),'exit_cmd':([0,],[20,]),'get_cmd':([0,],[21,]),'reset_relation_cmd':([0,],[22,]),'reset_cmd':([0,],[9,]),'set_cmd':([0,],[10,]),'select_cmd':([0,],[23,]),'attribute_expr':([34,44,45,47,],[46,53,54,55,]),}
+_lr_goto_items = {'exit_cmd':([0,],[2,]),'reset_cmd':([0,],[14,]),'attribute_expr':([28,42,43,51,],[41,54,55,60,]),'update_cmd':([0,],[16,]),'set_cmd':([0,],[22,]),'create_cmd':([0,],[3,]),'expr':([65,],[67,]),'reset_relation_cmd':([0,],[21,]),'delete_relation_cmd':([0,],[4,]),'command':([0,],[5,]),'get_cmd':([0,],[6,]),'delete_table_cmd':([0,],[8,]),'delete_cmd':([0,],[23,]),'insert_cmd':([0,],[10,]),'select_cmd':([0,],[11,]),'define_cmd':([0,],[12,]),}
 
 _lr_goto = { }
 for _k, _v in _lr_goto_items.items():
@@ -61,7 +61,8 @@ _lr_productions = [
   ('update_cmd -> UPDATE WORD NUMBER attribute_expr','update_cmd',4,'p_update_cmd','SqlYacc.py',310),
   ('select_cmd -> SELECT WORD FROM WORD WHERE expr','select_cmd',6,'p_select_cmd','SqlYacc.py',330),
   ('select_cmd -> SELECT WORD FROM WORD','select_cmd',4,'p_select_cmd','SqlYacc.py',331),
-  ('expr -> WORD EQUAL NUMBER','expr',3,'p_expr','SqlYacc.py',382),
-  ('expr -> WORD GREATER NUMBER','expr',3,'p_expr','SqlYacc.py',383),
-  ('expr -> WORD LESS NUMBER','expr',3,'p_expr','SqlYacc.py',384),
+  ('select_cmd -> SELECT ALL FROM WORD','select_cmd',4,'p_select_cmd','SqlYacc.py',332),
+  ('expr -> WORD EQUAL NUMBER','expr',3,'p_expr','SqlYacc.py',388),
+  ('expr -> WORD GREATER NUMBER','expr',3,'p_expr','SqlYacc.py',389),
+  ('expr -> WORD LESS NUMBER','expr',3,'p_expr','SqlYacc.py',390),
 ]
