@@ -385,7 +385,7 @@ def p_select_cmd(p):
     if len(p) is 5:    # No WHERE
         print('here')
         for key in table['elements']:
-            temp_table['elements'].update({ key : table['elements'][key][attribute]})
+            temp_table['elements'].update({ key : { attribute : table['elements'][key][attribute]}})
     elif len(p) is 7:  # WHERE 
         a = p[6][0]
         b = p[6][1]
