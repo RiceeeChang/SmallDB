@@ -393,13 +393,13 @@ def p_select_cmd(p):
         for key in table['elements']:
             if   b == '=':
                 if table['elements'][key][a] == c:
-                    temp_table['elements'].update({ key : table['elements'][key][attribute]})
+                    temp_table['elements'].update({ key : { attribute : table['elements'][key][attribute]}})
             elif b == '>':
                 if table['elements'][key][a] > c:
-                    temp_table['elements'].update({ key : table['elements'][key][attribute]})
+                    temp_table['elements'].update({ key : { attribute : table['elements'][key][attribute]}})
             elif b == '<':
                 if table['elements'][key][a] < c:
-                    temp_table['elements'].update({ key : table['elements'][key][attribute]})
+                    temp_table['elements'].update({ key : { attribute : table['elements'][key][attribute]}})
 
     # Send result table to client
     p[0] =  {'response' : 'success', 'data' : temp_table}
