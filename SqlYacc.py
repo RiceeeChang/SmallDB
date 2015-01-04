@@ -337,7 +337,7 @@ def p_select_cmd(p):
     if not isCmdState:
         p[0] =  {'response' : 'Error: You cannot do this command, please finish defining a relation.'}
         return 
-
+    
     # set some 
     table_name = p[4]
     # read table from file
@@ -346,11 +346,11 @@ def p_select_cmd(p):
     if table is None:
         p[0] = {'response' : 'Error: Table "' + table_name + '" is not found in database.'}
         return 
-
+    
     # if select all 
     if p[2] == 'all':
     	p[0] =  {'response' : 'success', 'data' : table}
-    return 
+    	return 
 
     # check attribute is in table   [undo] 
     for attr in table['attribute']:
@@ -363,6 +363,7 @@ def p_select_cmd(p):
     # Do Command collect what to show
     attribute = p[2]
     if len(p) is 5:    # No WHERE
+        print('here')
         for key in table['elements']:
             temp_table['elements'].update({ key : table['elements'][key][attribute]})
     elif len(p) is 7:  # WHERE 

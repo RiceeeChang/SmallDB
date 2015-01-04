@@ -18,8 +18,9 @@
  {"ID":15, "testcase":"insert STUDENT_DB 104 Student_Name4 65 95",            "oracle":"success"},
 
  {"ID":16, "testcase":"delete STUDENT_DB 102",                                "oracle":"success"},
- {"ID":17, "testcase":"update STUDENT_DB 103 Student_Name4 65 95",           "oracle":"success"},
+ {"ID":17, "testcase":"update STUDENT_DB 103 Student_Name4 65 95",            "oracle":"success"},
 
  {"ID":18, "testcase":"select SPOINT2 from STUDENT_DB where SPOINT1 < 70",    "oracle":"success"},
- {"ID":19, "testcase":"select SPOINT1 from STUDENT_DB where SPOINT2 > 70",    "oracle":"success"}
+ {"ID":19, "testcase":"select SPOINT1 from STUDENT_DB where SPOINT2 > 70",    "oracle":"success"},
+ {"ID":20, "testcase":"select SNAME from STUDENT_DB",                         "oracle":"success"}
 ]
