@@ -23,5 +23,6 @@
  {"ID":18, "testcase":"select SPOINT2 from STUDENT_DB where SPOINT1 < 70",    "oracle":"success"},
  {"ID":19, "testcase":"select SPOINT1 from STUDENT_DB where SPOINT2 > 70",    "oracle":"success"},
  {"ID":20, "testcase":"select SNAME from STUDENT_DB",                         "oracle":"success"},
- {"ID":21, "testcase":"select all from STUDENT_DB",                           "oracle":"success"}
+ {"ID":21, "testcase":"select all from STUDENT_DB",                           "oracle":"success"},
+ {"ID":22, "testcase":"select all from STUDENT_DB where SPOINT1 < 70",        "oracle":"success"}
 ]

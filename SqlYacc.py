@@ -351,7 +351,7 @@ def p_select_cmd(p):
     # if select all 
     if p[2] == 'all':
         if len(p) is 5:
-            p[0] =  {'response' : 'success', 'data' : table['elements']}
+            p[0] =  {'response' : 'success', 'data' : table}
             return 
         elif len(p) is 7:
             # Create a temp to collection selection item.
