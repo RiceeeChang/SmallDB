@@ -133,31 +133,31 @@ state 0
     (15) reset_cmd -> . RESET DATABASE
     (23) reset_relation_cmd -> . RESET RELATION
 
-    DEFINE          shift and go to state 15
-    SET             shift and go to state 24
-    CREATE          shift and go to state 2
-    INSERT          shift and go to state 6
-    DELETE          shift and go to state 3
-    UPDATE          shift and go to state 8
-    SELECT          shift and go to state 19
-    GET             shift and go to state 12
-    EXIT            shift and go to state 18
-    RESET           shift and go to state 4
+    DEFINE          shift and go to state 5
+    SET             shift and go to state 3
+    CREATE          shift and go to state 4
+    INSERT          shift and go to state 9
+    DELETE          shift and go to state 16
+    UPDATE          shift and go to state 12
+    SELECT          shift and go to state 23
+    GET             shift and go to state 8
+    EXIT            shift and go to state 15
+    RESET           shift and go to state 13
 
-    update_cmd                     shift and go to state 13
+    delete_cmd                     shift and go to state 11
     select_cmd                     shift and go to state 1
-    set_cmd                        shift and go to state 14
-    define_cmd                     shift and go to state 7
-    delete_relation_cmd            shift and go to state 17
-    exit_cmd                       shift and go to state 5
-    delete_cmd                     shift and go to state 20
-    command                        shift and go to state 21
-    reset_relation_cmd             shift and go to state 22
-    create_cmd                     shift and go to state 9
-    insert_cmd                     shift and go to state 23
-    delete_table_cmd               shift and go to state 16
-    get_cmd                        shift and go to state 10
-    reset_cmd                      shift and go to state 11
+    define_cmd                     shift and go to state 20
+    reset_relation_cmd             shift and go to state 14
+    get_cmd                        shift and go to state 6
+    exit_cmd                       shift and go to state 24
+    create_cmd                     shift and go to state 17
+    insert_cmd                     shift and go to state 18
+    command                        shift and go to state 19
+    update_cmd                     shift and go to state 2
+    delete_relation_cmd            shift and go to state 21
+    reset_cmd                      shift and go to state 22
+    set_cmd                        shift and go to state 7
+    delete_table_cmd               shift and go to state 10
 
 state 1
 
@@ -168,220 +168,223 @@ state 1
 
 state 2
 
-    (24) create_cmd -> CREATE . TABLE WORD WORD
-
-    TABLE           shift and go to state 25
-
-
-state 3
-
-    (32) delete_cmd -> DELETE . WORD NUMBER
-    (26) delete_table_cmd -> DELETE . TABLE WORD
-    (25) delete_relation_cmd -> DELETE . RELATION WORD
-
-    WORD            shift and go to state 27
-    TABLE           shift and go to state 26
-    RELATION        shift and go to state 28
-
-
-state 4
-
-    (15) reset_cmd -> RESET . DATABASE
-    (23) reset_relation_cmd -> RESET . RELATION
-
-    DATABASE        shift and go to state 30
-    RELATION        shift and go to state 29
-
-
-state 5
-
-    (11) command -> exit_cmd .
-
-    $end            reduce using rule 11 (command -> exit_cmd .)
-
-
-state 6
-
-    (27) insert_cmd -> INSERT . WORD attribute_expr
-
-    WORD            shift and go to state 31
-
-
-state 7
-
-    (1) command -> define_cmd .
-
-    $end            reduce using rule 1 (command -> define_cmd .)
-
-
-state 8
-
-    (33) update_cmd -> UPDATE . WORD NUMBER attribute_expr
-
-    WORD            shift and go to state 32
-
-
-state 9
-
-    (3) command -> create_cmd .
-
-    $end            reduce using rule 3 (command -> create_cmd .)
-
-
-state 10
-
-    (8) command -> get_cmd .
-
-    $end            reduce using rule 8 (command -> get_cmd .)
-
-
-state 11
-
-    (12) command -> reset_cmd .
-
-    $end            reduce using rule 12 (command -> reset_cmd .)
-
-
-state 12
-
-    (16) get_cmd -> GET . TABLE
-    (17) get_cmd -> GET . RELATION
-
-    TABLE           shift and go to state 33
-    RELATION        shift and go to state 34
-
-
-state 13
-
     (6) command -> update_cmd .
 
     $end            reduce using rule 6 (command -> update_cmd .)
 
 
-state 14
-
-    (2) command -> set_cmd .
-
-    $end            reduce using rule 2 (command -> set_cmd .)
-
-
-state 15
-
-    (18) define_cmd -> DEFINE . RELATION WORD
-
-    RELATION        shift and go to state 35
-
-
-state 16
-
-    (9) command -> delete_table_cmd .
-
-    $end            reduce using rule 9 (command -> delete_table_cmd .)
-
-
-state 17
-
-    (10) command -> delete_relation_cmd .
-
-    $end            reduce using rule 10 (command -> delete_relation_cmd .)
-
-
-state 18
-
-    (14) exit_cmd -> EXIT .
-
-    $end            reduce using rule 14 (exit_cmd -> EXIT .)
-
-
-state 19
-
-    (34) select_cmd -> SELECT . WORD FROM WORD WHERE expr
-    (35) select_cmd -> SELECT . ALL FROM WORD WHERE expr
-    (36) select_cmd -> SELECT . WORD FROM WORD
-    (37) select_cmd -> SELECT . ALL FROM WORD
-
-    WORD            shift and go to state 37
-    ALL             shift and go to state 36
-
-
-state 20
-
-    (5) command -> delete_cmd .
-
-    $end            reduce using rule 5 (command -> delete_cmd .)
-
-
-state 21
-
-    (0) S' -> command .
-
-
-
-state 22
-
-    (13) command -> reset_relation_cmd .
-
-    $end            reduce using rule 13 (command -> reset_relation_cmd .)
-
-
-state 23
-
-    (4) command -> insert_cmd .
-
-    $end            reduce using rule 4 (command -> insert_cmd .)
-
-
-state 24
+state 3
 
     (19) set_cmd -> SET . ATTRIBUTE CHARACTER NUMBER WORD
     (20) set_cmd -> SET . ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER
     (21) set_cmd -> SET . ATTRIBUTE INTEGER WORD
     (22) set_cmd -> SET . PRIMARY KEY WORD
 
-    ATTRIBUTE       shift and go to state 38
-    PRIMARY         shift and go to state 39
+    ATTRIBUTE       shift and go to state 25
+    PRIMARY         shift and go to state 26
+
+
+state 4
+
+    (24) create_cmd -> CREATE . TABLE WORD WORD
+
+    TABLE           shift and go to state 27
+
+
+state 5
+
+    (18) define_cmd -> DEFINE . RELATION WORD
+
+    RELATION        shift and go to state 28
+
+
+state 6
+
+    (8) command -> get_cmd .
+
+    $end            reduce using rule 8 (command -> get_cmd .)
+
+
+state 7
+
+    (2) command -> set_cmd .
+
+    $end            reduce using rule 2 (command -> set_cmd .)
+
+
+state 8
+
+    (16) get_cmd -> GET . TABLE
+    (17) get_cmd -> GET . RELATION
+
+    TABLE           shift and go to state 29
+    RELATION        shift and go to state 30
+
+
+state 9
+
+    (27) insert_cmd -> INSERT . WORD attribute_expr
+
+    WORD            shift and go to state 31
+
+
+state 10
+
+    (9) command -> delete_table_cmd .
+
+    $end            reduce using rule 9 (command -> delete_table_cmd .)
+
+
+state 11
+
+    (5) command -> delete_cmd .
+
+    $end            reduce using rule 5 (command -> delete_cmd .)
+
+
+state 12
+
+    (33) update_cmd -> UPDATE . WORD NUMBER attribute_expr
+
+    WORD            shift and go to state 32
+
+
+state 13
+
+    (15) reset_cmd -> RESET . DATABASE
+    (23) reset_relation_cmd -> RESET . RELATION
+
+    DATABASE        shift and go to state 33
+    RELATION        shift and go to state 34
+
+
+state 14
+
+    (13) command -> reset_relation_cmd .
+
+    $end            reduce using rule 13 (command -> reset_relation_cmd .)
+
+
+state 15
+
+    (14) exit_cmd -> EXIT .
+
+    $end            reduce using rule 14 (exit_cmd -> EXIT .)
+
+
+state 16
+
+    (32) delete_cmd -> DELETE . WORD NUMBER
+    (26) delete_table_cmd -> DELETE . TABLE WORD
+    (25) delete_relation_cmd -> DELETE . RELATION WORD
+
+    WORD            shift and go to state 36
+    TABLE           shift and go to state 35
+    RELATION        shift and go to state 37
+
+
+state 17
+
+    (3) command -> create_cmd .
+
+    $end            reduce using rule 3 (command -> create_cmd .)
+
+
+state 18
+
+    (4) command -> insert_cmd .
+
+    $end            reduce using rule 4 (command -> insert_cmd .)
+
+
+state 19
+
+    (0) S' -> command .
+
+
+
+state 20
+
+    (1) command -> define_cmd .
+
+    $end            reduce using rule 1 (command -> define_cmd .)
+
+
+state 21
+
+    (10) command -> delete_relation_cmd .
+
+    $end            reduce using rule 10 (command -> delete_relation_cmd .)
+
+
+state 22
+
+    (12) command -> reset_cmd .
+
+    $end            reduce using rule 12 (command -> reset_cmd .)
+
+
+state 23
+
+    (34) select_cmd -> SELECT . WORD FROM WORD WHERE expr
+    (35) select_cmd -> SELECT . ALL FROM WORD WHERE expr
+    (36) select_cmd -> SELECT . WORD FROM WORD
+    (37) select_cmd -> SELECT . ALL FROM WORD
+
+    WORD            shift and go to state 39
+    ALL             shift and go to state 38
+
+
+state 24
+
+    (11) command -> exit_cmd .
+
+    $end            reduce using rule 11 (command -> exit_cmd .)
 
 
 state 25
 
-    (24) create_cmd -> CREATE TABLE . WORD WORD
+    (19) set_cmd -> SET ATTRIBUTE . CHARACTER NUMBER WORD
+    (20) set_cmd -> SET ATTRIBUTE . INTEGER WORD RANGE NUMBER NUMBER
+    (21) set_cmd -> SET ATTRIBUTE . INTEGER WORD
 
-    WORD            shift and go to state 40
+    CHARACTER       shift and go to state 41
+    INTEGER         shift and go to state 40
 
 
 state 26
 
-    (26) delete_table_cmd -> DELETE TABLE . WORD
+    (22) set_cmd -> SET PRIMARY . KEY WORD
 
-    WORD            shift and go to state 41
+    KEY             shift and go to state 42
 
 
 state 27
 
-    (32) delete_cmd -> DELETE WORD . NUMBER
-
-    NUMBER          shift and go to state 42
-
-
-state 28
-
-    (25) delete_relation_cmd -> DELETE RELATION . WORD
+    (24) create_cmd -> CREATE TABLE . WORD WORD
 
     WORD            shift and go to state 43
 
 
+state 28
+
+    (18) define_cmd -> DEFINE RELATION . WORD
+
+    WORD            shift and go to state 44
+
+
 state 29
 
-    (23) reset_relation_cmd -> RESET RELATION .
+    (16) get_cmd -> GET TABLE .
 
-    $end            reduce using rule 23 (reset_relation_cmd -> RESET RELATION .)
+    $end            reduce using rule 16 (get_cmd -> GET TABLE .)
 
 
 state 30
 
-    (15) reset_cmd -> RESET DATABASE .
+    (17) get_cmd -> GET RELATION .
 
-    $end            reduce using rule 15 (reset_cmd -> RESET DATABASE .)
+    $end            reduce using rule 17 (get_cmd -> GET RELATION .)
 
 
 state 31
@@ -392,116 +395,113 @@ state 31
     (30) attribute_expr -> . WORD
     (31) attribute_expr -> . NUMBER
 
-    WORD            shift and go to state 45
-    NUMBER          shift and go to state 44
+    WORD            shift and go to state 46
+    NUMBER          shift and go to state 47
 
-    attribute_expr                 shift and go to state 46
+    attribute_expr                 shift and go to state 45
 
 state 32
 
     (33) update_cmd -> UPDATE WORD . NUMBER attribute_expr
 
-    NUMBER          shift and go to state 47
+    NUMBER          shift and go to state 48
 
 
 state 33
 
-    (16) get_cmd -> GET TABLE .
+    (15) reset_cmd -> RESET DATABASE .
 
-    $end            reduce using rule 16 (get_cmd -> GET TABLE .)
+    $end            reduce using rule 15 (reset_cmd -> RESET DATABASE .)
 
 
 state 34
 
-    (17) get_cmd -> GET RELATION .
+    (23) reset_relation_cmd -> RESET RELATION .
 
-    $end            reduce using rule 17 (get_cmd -> GET RELATION .)
+    $end            reduce using rule 23 (reset_relation_cmd -> RESET RELATION .)
 
 
 state 35
 
-    (18) define_cmd -> DEFINE RELATION . WORD
+    (26) delete_table_cmd -> DELETE TABLE . WORD
 
-    WORD            shift and go to state 48
+    WORD            shift and go to state 49
 
 
 state 36
 
-    (35) select_cmd -> SELECT ALL . FROM WORD WHERE expr
-    (37) select_cmd -> SELECT ALL . FROM WORD
+    (32) delete_cmd -> DELETE WORD . NUMBER
 
-    FROM            shift and go to state 49
+    NUMBER          shift and go to state 50
 
 
 state 37
 
-    (34) select_cmd -> SELECT WORD . FROM WORD WHERE expr
-    (36) select_cmd -> SELECT WORD . FROM WORD
+    (25) delete_relation_cmd -> DELETE RELATION . WORD
 
-    FROM            shift and go to state 50
+    WORD            shift and go to state 51
 
 
 state 38
 
-    (19) set_cmd -> SET ATTRIBUTE . CHARACTER NUMBER WORD
-    (20) set_cmd -> SET ATTRIBUTE . INTEGER WORD RANGE NUMBER NUMBER
-    (21) set_cmd -> SET ATTRIBUTE . INTEGER WORD
+    (35) select_cmd -> SELECT ALL . FROM WORD WHERE expr
+    (37) select_cmd -> SELECT ALL . FROM WORD
 
-    CHARACTER       shift and go to state 52
-    INTEGER         shift and go to state 51
+    FROM            shift and go to state 52
 
 
 state 39
 
-    (22) set_cmd -> SET PRIMARY . KEY WORD
+    (34) select_cmd -> SELECT WORD . FROM WORD WHERE expr
+    (36) select_cmd -> SELECT WORD . FROM WORD
 
-    KEY             shift and go to state 53
+    FROM            shift and go to state 53
 
 
 state 40
 
-    (24) create_cmd -> CREATE TABLE WORD . WORD
+    (20) set_cmd -> SET ATTRIBUTE INTEGER . WORD RANGE NUMBER NUMBER
+    (21) set_cmd -> SET ATTRIBUTE INTEGER . WORD
 
     WORD            shift and go to state 54
 
 
 state 41
 
-    (26) delete_table_cmd -> DELETE TABLE WORD .
+    (19) set_cmd -> SET ATTRIBUTE CHARACTER . NUMBER WORD
 
-    $end            reduce using rule 26 (delete_table_cmd -> DELETE TABLE WORD .)
+    NUMBER          shift and go to state 55
 
 
 state 42
 
-    (32) delete_cmd -> DELETE WORD NUMBER .
+    (22) set_cmd -> SET PRIMARY KEY . WORD
 
-    $end            reduce using rule 32 (delete_cmd -> DELETE WORD NUMBER .)
+    WORD            shift and go to state 56
 
 
 state 43
 
-    (25) delete_relation_cmd -> DELETE RELATION WORD .
+    (24) create_cmd -> CREATE TABLE WORD . WORD
 
-    $end            reduce using rule 25 (delete_relation_cmd -> DELETE RELATION WORD .)
+    WORD            shift and go to state 57
 
 
 state 44
 
-    (29) attribute_expr -> NUMBER . attribute_expr
-    (31) attribute_expr -> NUMBER .
-    (28) attribute_expr -> . WORD attribute_expr
-    (29) attribute_expr -> . NUMBER attribute_expr
-    (30) attribute_expr -> . WORD
-    (31) attribute_expr -> . NUMBER
+    (18) define_cmd -> DEFINE RELATION WORD .
 
-    $end            reduce using rule 31 (attribute_expr -> NUMBER .)
-    WORD            shift and go to state 45
-    NUMBER          shift and go to state 44
+    $end            reduce using rule 18 (define_cmd -> DEFINE RELATION WORD .)
 
-    attribute_expr                 shift and go to state 55
 
 state 45
+
+    (27) insert_cmd -> INSERT WORD attribute_expr .
+
+    $end            reduce using rule 27 (insert_cmd -> INSERT WORD attribute_expr .)
+
+
+state 46
 
     (28) attribute_expr -> WORD . attribute_expr
     (30) attribute_expr -> WORD .
@@ -511,19 +511,27 @@ state 45
     (31) attribute_expr -> . NUMBER
 
     $end            reduce using rule 30 (attribute_expr -> WORD .)
-    WORD            shift and go to state 45
-    NUMBER          shift and go to state 44
+    WORD            shift and go to state 46
+    NUMBER          shift and go to state 47
 
-    attribute_expr                 shift and go to state 56
-
-state 46
-
-    (27) insert_cmd -> INSERT WORD attribute_expr .
-
-    $end            reduce using rule 27 (insert_cmd -> INSERT WORD attribute_expr .)
-
+    attribute_expr                 shift and go to state 58
 
 state 47
+
+    (29) attribute_expr -> NUMBER . attribute_expr
+    (31) attribute_expr -> NUMBER .
+    (28) attribute_expr -> . WORD attribute_expr
+    (29) attribute_expr -> . NUMBER attribute_expr
+    (30) attribute_expr -> . WORD
+    (31) attribute_expr -> . NUMBER
+
+    $end            reduce using rule 31 (attribute_expr -> NUMBER .)
+    WORD            shift and go to state 46
+    NUMBER          shift and go to state 47
+
+    attribute_expr                 shift and go to state 59
+
+state 48
 
     (33) update_cmd -> UPDATE WORD NUMBER . attribute_expr
     (28) attribute_expr -> . WORD attribute_expr
@@ -531,170 +539,158 @@ state 47
     (30) attribute_expr -> . WORD
     (31) attribute_expr -> . NUMBER
 
-    WORD            shift and go to state 45
-    NUMBER          shift and go to state 44
+    WORD            shift and go to state 46
+    NUMBER          shift and go to state 47
 
-    attribute_expr                 shift and go to state 57
-
-state 48
-
-    (18) define_cmd -> DEFINE RELATION WORD .
-
-    $end            reduce using rule 18 (define_cmd -> DEFINE RELATION WORD .)
-
+    attribute_expr                 shift and go to state 60
 
 state 49
 
-    (35) select_cmd -> SELECT ALL FROM . WORD WHERE expr
-    (37) select_cmd -> SELECT ALL FROM . WORD
+    (26) delete_table_cmd -> DELETE TABLE WORD .
 
-    WORD            shift and go to state 58
+    $end            reduce using rule 26 (delete_table_cmd -> DELETE TABLE WORD .)
 
 
 state 50
 
-    (34) select_cmd -> SELECT WORD FROM . WORD WHERE expr
-    (36) select_cmd -> SELECT WORD FROM . WORD
+    (32) delete_cmd -> DELETE WORD NUMBER .
 
-    WORD            shift and go to state 59
+    $end            reduce using rule 32 (delete_cmd -> DELETE WORD NUMBER .)
 
 
 state 51
 
-    (20) set_cmd -> SET ATTRIBUTE INTEGER . WORD RANGE NUMBER NUMBER
-    (21) set_cmd -> SET ATTRIBUTE INTEGER . WORD
+    (25) delete_relation_cmd -> DELETE RELATION WORD .
 
-    WORD            shift and go to state 60
+    $end            reduce using rule 25 (delete_relation_cmd -> DELETE RELATION WORD .)
 
 
 state 52
 
-    (19) set_cmd -> SET ATTRIBUTE CHARACTER . NUMBER WORD
+    (35) select_cmd -> SELECT ALL FROM . WORD WHERE expr
+    (37) select_cmd -> SELECT ALL FROM . WORD
 
-    NUMBER          shift and go to state 61
+    WORD            shift and go to state 61
 
 
 state 53
 
-    (22) set_cmd -> SET PRIMARY KEY . WORD
+    (34) select_cmd -> SELECT WORD FROM . WORD WHERE expr
+    (36) select_cmd -> SELECT WORD FROM . WORD
 
     WORD            shift and go to state 62
 
 
 state 54
 
-    (24) create_cmd -> CREATE TABLE WORD WORD .
+    (20) set_cmd -> SET ATTRIBUTE INTEGER WORD . RANGE NUMBER NUMBER
+    (21) set_cmd -> SET ATTRIBUTE INTEGER WORD .
 
-    $end            reduce using rule 24 (create_cmd -> CREATE TABLE WORD WORD .)
+    RANGE           shift and go to state 63
+    $end            reduce using rule 21 (set_cmd -> SET ATTRIBUTE INTEGER WORD .)
 
 
 state 55
 
-    (29) attribute_expr -> NUMBER attribute_expr .
+    (19) set_cmd -> SET ATTRIBUTE CHARACTER NUMBER . WORD
 
-    $end            reduce using rule 29 (attribute_expr -> NUMBER attribute_expr .)
+    WORD            shift and go to state 64
 
 
 state 56
-
-    (28) attribute_expr -> WORD attribute_expr .
-
-    $end            reduce using rule 28 (attribute_expr -> WORD attribute_expr .)
-
-
-state 57
-
-    (33) update_cmd -> UPDATE WORD NUMBER attribute_expr .
-
-    $end            reduce using rule 33 (update_cmd -> UPDATE WORD NUMBER attribute_expr .)
-
-
-state 58
-
-    (35) select_cmd -> SELECT ALL FROM WORD . WHERE expr
-    (37) select_cmd -> SELECT ALL FROM WORD .
-
-    WHERE           shift and go to state 63
-    $end            reduce using rule 37 (select_cmd -> SELECT ALL FROM WORD .)
-
-
-state 59
-
-    (34) select_cmd -> SELECT WORD FROM WORD . WHERE expr
-    (36) select_cmd -> SELECT WORD FROM WORD .
-
-    WHERE           shift and go to state 64
-    $end            reduce using rule 36 (select_cmd -> SELECT WORD FROM WORD .)
-
-
-state 60
-
-    (20) set_cmd -> SET ATTRIBUTE INTEGER WORD . RANGE NUMBER NUMBER
-    (21) set_cmd -> SET ATTRIBUTE INTEGER WORD .
-
-    RANGE           shift and go to state 65
-    $end            reduce using rule 21 (set_cmd -> SET ATTRIBUTE INTEGER WORD .)
-
-
-state 61
-
-    (19) set_cmd -> SET ATTRIBUTE CHARACTER NUMBER . WORD
-
-    WORD            shift and go to state 66
-
-
-state 62
 
     (22) set_cmd -> SET PRIMARY KEY WORD .
 
     $end            reduce using rule 22 (set_cmd -> SET PRIMARY KEY WORD .)
 
 
+state 57
+
+    (24) create_cmd -> CREATE TABLE WORD WORD .
+
+    $end            reduce using rule 24 (create_cmd -> CREATE TABLE WORD WORD .)
+
+
+state 58
+
+    (28) attribute_expr -> WORD attribute_expr .
+
+    $end            reduce using rule 28 (attribute_expr -> WORD attribute_expr .)
+
+
+state 59
+
+    (29) attribute_expr -> NUMBER attribute_expr .
+
+    $end            reduce using rule 29 (attribute_expr -> NUMBER attribute_expr .)
+
+
+state 60
+
+    (33) update_cmd -> UPDATE WORD NUMBER attribute_expr .
+
+    $end            reduce using rule 33 (update_cmd -> UPDATE WORD NUMBER attribute_expr .)
+
+
+state 61
+
+    (35) select_cmd -> SELECT ALL FROM WORD . WHERE expr
+    (37) select_cmd -> SELECT ALL FROM WORD .
+
+    WHERE           shift and go to state 65
+    $end            reduce using rule 37 (select_cmd -> SELECT ALL FROM WORD .)
+
+
+state 62
+
+    (34) select_cmd -> SELECT WORD FROM WORD . WHERE expr
+    (36) select_cmd -> SELECT WORD FROM WORD .
+
+    WHERE           shift and go to state 66
+    $end            reduce using rule 36 (select_cmd -> SELECT WORD FROM WORD .)
+
+
 state 63
-
-    (35) select_cmd -> SELECT ALL FROM WORD WHERE . expr
-    (38) expr -> . WORD EQUAL NUMBER
-    (39) expr -> . WORD GREATER NUMBER
-    (40) expr -> . WORD LESS NUMBER
-
-    WORD            shift and go to state 67
-
-    expr                           shift and go to state 68
-
-state 64
-
-    (34) select_cmd -> SELECT WORD FROM WORD WHERE . expr
-    (38) expr -> . WORD EQUAL NUMBER
-    (39) expr -> . WORD GREATER NUMBER
-    (40) expr -> . WORD LESS NUMBER
-
-    WORD            shift and go to state 67
-
-    expr                           shift and go to state 69
-
-state 65
 
     (20) set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE . NUMBER NUMBER
 
-    NUMBER          shift and go to state 70
+    NUMBER          shift and go to state 67
 
 
-state 66
+state 64
 
     (19) set_cmd -> SET ATTRIBUTE CHARACTER NUMBER WORD .
 
     $end            reduce using rule 19 (set_cmd -> SET ATTRIBUTE CHARACTER NUMBER WORD .)
 
 
+state 65
+
+    (35) select_cmd -> SELECT ALL FROM WORD WHERE . expr
+    (38) expr -> . WORD EQUAL NUMBER
+    (39) expr -> . WORD GREATER NUMBER
+    (40) expr -> . WORD LESS NUMBER
+
+    WORD            shift and go to state 69
+
+    expr                           shift and go to state 68
+
+state 66
+
+    (34) select_cmd -> SELECT WORD FROM WORD WHERE . expr
+    (38) expr -> . WORD EQUAL NUMBER
+    (39) expr -> . WORD GREATER NUMBER
+    (40) expr -> . WORD LESS NUMBER
+
+    WORD            shift and go to state 69
+
+    expr                           shift and go to state 70
+
 state 67
 
-    (38) expr -> WORD . EQUAL NUMBER
-    (39) expr -> WORD . GREATER NUMBER
-    (40) expr -> WORD . LESS NUMBER
+    (20) set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER . NUMBER
 
-    EQUAL           shift and go to state 73
-    GREATER         shift and go to state 71
-    LESS            shift and go to state 72
+    NUMBER          shift and go to state 71
 
 
 state 68
@@ -706,44 +702,48 @@ state 68
 
 state 69
 
+    (38) expr -> WORD . EQUAL NUMBER
+    (39) expr -> WORD . GREATER NUMBER
+    (40) expr -> WORD . LESS NUMBER
+
+    EQUAL           shift and go to state 74
+    GREATER         shift and go to state 72
+    LESS            shift and go to state 73
+
+
+state 70
+
     (34) select_cmd -> SELECT WORD FROM WORD WHERE expr .
 
     $end            reduce using rule 34 (select_cmd -> SELECT WORD FROM WORD WHERE expr .)
 
 
-state 70
-
-    (20) set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER . NUMBER
-
-    NUMBER          shift and go to state 74
-
-
 state 71
+
+    (20) set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER .
+
+    $end            reduce using rule 20 (set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER .)
+
+
+state 72
 
     (39) expr -> WORD GREATER . NUMBER
 
     NUMBER          shift and go to state 75
 
 
-state 72
+state 73
 
     (40) expr -> WORD LESS . NUMBER
 
     NUMBER          shift and go to state 76
 
 
-state 73
+state 74
 
     (38) expr -> WORD EQUAL . NUMBER
 
     NUMBER          shift and go to state 77
-
-
-state 74
-
-    (20) set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER .
-
-    $end            reduce using rule 20 (set_cmd -> SET ATTRIBUTE INTEGER WORD RANGE NUMBER NUMBER .)
 
 
 state 75
