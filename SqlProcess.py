@@ -113,13 +113,20 @@ class Table(object):
 
     # update <table> <primary_key> (<attribute_value>)+
     def updateElement(self, key_value, element):
+        data = self.table['elements'][str(key_value)]
         if str(key_value) in self.table['elements']:
             self.delElement(key_value)
         else:
             return {'response' : 'Error: Element of Primary key "' + str(key_value) + '" is not found in Table "' + self.name + '.'}
         
-        self.addElement(element)
-        return {'response' : 'success'}
+        result = self.addElement(element)
+
+        if result is True:
+            return {'response' : 'success'}
+        else:
+            self.addElement(data)
+            return result
+
 
 def getFilePath(table_name):
     return 'Data/' + table_name + '.json'
