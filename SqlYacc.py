@@ -330,6 +330,7 @@ def p_select_cmd(p):
     # select <attribute_name> from <table_name> where <expr>
     #      [0]       [1]   [2]  [3]  [4]  [5]   [6]
     '''select_cmd : SELECT WORD FROM WORD WHERE expr
+    			  | SELECT ALL FROM WORD WHERE expr
                   | SELECT WORD FROM WORD
                   | SELECT ALL FROM WORD'''
     
@@ -349,8 +350,27 @@ def p_select_cmd(p):
     
     # if select all 
     if p[2] == 'all':
-    	p[0] =  {'response' : 'success', 'data' : table}
-    	return 
+        if len(p) is 5:
+            p[0] =  {'response' : 'success', 'data' : table['elements']}
+            return 
+        elif len(p) is 7:
+            # Create a temp to collection selection item.
+            temp_table = {'name' : table_name, 'attribute':table['attribute'], 'primary_key': table['primary_key'], 'elements': {}}
+            a = p[6][0]
+            b = p[6][1]
+            c = p[6][2]
+            for key in table['elements']:
+                if   b == '=':
+                    if table['elements'][key][a] == c:
+                        temp_table['elements'].update({ key : table['elements'][key]})
+                elif b == '>':
+                    if table['elements'][key][a] > c:
+                        temp_table['elements'].update({ key : table['elements'][key]})
+                elif b == '<':
+                    if table['elements'][key][a] < c:
+                        temp_table['elements'].update({ key : table['elements'][key]})
+            p[0] = {'response' : 'success', 'data' : temp_table}
+            return
 
     # check attribute is in table   [undo] 
     for attr in table['attribute']:
